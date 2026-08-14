@@ -1,0 +1,294 @@
+@import "tailwindcss";
+
+/* Design tokens — extracted from Claude Designer sources */
+:root {
+  --green: #00b20b;
+  --green-dark: #009208;
+  --green-tint: #f3fbf4;
+  --blue: #0088b7;
+  --ink: #012418;
+  --red: #e63946;
+  --red-dark: #cc2e36;
+  --red-tint: #ffe8e8;
+  --yellow: #ffb703;
+  --footer: #1a4d2e;
+
+  --border: #e5e5e5;
+  --surface: #f5f5f5;
+  --surface-alt: #f8f8f8;
+  --muted: #999999;
+  --body: #666666;
+
+  --shadow-card: 0 1px 8px rgba(0, 0, 0, 0.05);
+  --shadow-hover: 0 4px 16px rgba(0, 0, 0, 0.1);
+  --shadow-focus: 0 2px 8px rgba(0, 0, 0, 0.1);
+  --shadow-strong: 0 4px 16px rgba(0, 0, 0, 0.15);
+
+  --ease-out: cubic-bezier(0, 0, 0.2, 1);
+}
+
+@theme inline {
+  --color-green: var(--green);
+  --color-green-dark: var(--green-dark);
+  --color-green-tint: var(--green-tint);
+  --color-blue: var(--blue);
+  --color-ink: var(--ink);
+  --color-red: var(--red);
+  --color-red-dark: var(--red-dark);
+  --color-red-tint: var(--red-tint);
+  --color-yellow: var(--yellow);
+  --color-footer: var(--footer);
+  --color-line: var(--border);
+  --color-surface: var(--surface);
+  --color-surface-alt: var(--surface-alt);
+  --color-muted: var(--muted);
+  --color-body: var(--body);
+
+  --font-display: var(--font-archivo), sans-serif;
+  --font-sans: var(--font-manrope), sans-serif;
+}
+
+/* The designs are light-only; pin the palette so the OS theme can't invert it. */
+html {
+  color-scheme: light;
+}
+
+body {
+  margin: 0;
+  background: #ffffff;
+  color: var(--ink);
+  font-family: var(--font-manrope), sans-serif;
+}
+
+a {
+  color: var(--blue);
+  text-decoration: none;
+  transition: color 200ms var(--ease-out);
+}
+a:hover {
+  color: var(--green);
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.animate-fade-up {
+  animation: fadeUp 200ms var(--ease-out);
+}
+
+/* Desktop-first grids that collapse at the mobile breakpoints. */
+.footer-grid {
+  grid-template-columns: repeat(4, 1fr);
+}
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+.grid-cat-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+.split-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+.cart-split {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(320px, 3fr);
+  gap: 32px;
+  align-items: start;
+}
+
+.checkout-split {
+  display: grid;
+  grid-template-columns: minmax(0, 65fr) minmax(320px, 35fr);
+  gap: 32px;
+  align-items: start;
+}
+
+.pix-split {
+  display: grid;
+  grid-template-columns: minmax(0, 60fr) minmax(320px, 40fr);
+  gap: 32px;
+  align-items: start;
+}
+
+@media (max-width: 1100px) {
+  .checkout-split,
+  .pix-split {
+    grid-template-columns: 1fr;
+  }
+}
+
+.filter-split {
+  display: grid;
+  grid-template-columns: minmax(220px, 25fr) minmax(0, 75fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.detail-split {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(280px, 3fr);
+  gap: 24px;
+  align-items: start;
+}
+
+@media (max-width: 1000px) {
+  .detail-split {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .filter-split {
+    grid-template-columns: 1fr;
+  }
+}
+
+.confirm-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.perks-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.address-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px 24px;
+}
+
+@media (max-width: 700px) {
+  .address-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .confirm-grid,
+  .perks-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.shimmer {
+  background: linear-gradient(90deg, #f0f0f0 25%, #f8f8f8 37%, #f0f0f0 63%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s ease infinite;
+}
+
+.orders-row {
+  display: grid;
+  grid-template-columns: 120px 140px 1fr 100px 150px 50px;
+  align-items: center;
+  padding: 0 16px;
+  gap: 16px;
+}
+
+.orders-head {
+  height: 48px;
+  background: #f8f8f8;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+@media (max-width: 1000px) {
+  /* Collapse the orders table into stacked cards. */
+  .orders-row {
+    grid-template-columns: 1fr 1fr;
+    padding: 16px;
+    gap: 8px;
+  }
+  .orders-head {
+    display: none;
+  }
+}
+
+.cart-row {
+  display: grid;
+  grid-template-columns: 3fr 1fr 1.2fr 1.4fr;
+  gap: 16px;
+}
+
+@media (max-width: 760px) {
+  /* Stack cart rows; the column header stops making sense once stacked. */
+  .cart-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .cart-head {
+    display: none;
+  }
+}
+
+@media (max-width: 1100px) {
+  .grid-4,
+  .grid-cat-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .cart-split {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 900px) {
+  .footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .split-2 {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  /* Sticky panes stop sticking once stacked. */
+  .unstick-mobile {
+    position: static !important;
+    top: auto !important;
+    max-height: none !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .grid-4,
+  .grid-cat-4 {
+    grid-template-columns: 1fr;
+  }
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
