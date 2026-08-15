@@ -68,10 +68,13 @@ export interface PedidoItem {
 }
 
 export interface PedidoHistoricoEntrada {
+  tipo?: "estado" | "edicao";
   estado: string;
   quando: string;
   quem: string;
   observacao?: string;
+  itensAnteriores?: PedidoItem[];
+  freteAnterior?: number;
 }
 
 export interface Pedido {
@@ -90,6 +93,13 @@ export interface Pedido {
   comprovanteUrl?: string;
   comprovanteEnviadoEm?: string;
   valorComprovante?: number;
+  ultimaRecusa?: PedidoUltimaRecusa;
+}
+
+export interface PedidoUltimaRecusa {
+  motivo: string;
+  quando: string;
+  comprovanteUrl?: string;
 }
 
 export interface ClienteEndereco {

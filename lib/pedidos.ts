@@ -30,6 +30,7 @@ function toPedido(id: string, data: Record<string, unknown>): Pedido {
     comprovanteUrl: data.comprovanteUrl as string | undefined,
     comprovanteEnviadoEm: data.comprovanteEnviadoEm as string | undefined,
     valorComprovante: data.valorComprovante as number | undefined,
+    ultimaRecusa: data.ultimaRecusa as Pedido["ultimaRecusa"],
   };
 }
 
@@ -104,6 +105,20 @@ export async function enviarComprovante(
       quando: agora,
       quem,
       observacao: "Comprovante enviado",
+    }),
+  });
+}
+
+/** Cancela um pedido em negociação, a pedido do cliente. */
+export async function cancelarPedido(pedidoId: string, quem: string): Promise<void> {
+  const agora = new Date().toISOString();
+  await updateDoc(doc(db, "pedidos", pedidoId), {
+    estado: "cancelado" satisfies PedidoEstado,
+    historico: arrayUnion({
+      estado: "cancelado",
+      quando: agora,
+      quem,
+      observacao: "Cancelado pelo cliente",
     }),
   });
 }

@@ -8,8 +8,9 @@ import { Modal } from "@/components/Modal";
 import { Placeholder } from "@/components/Placeholder";
 import { Icon } from "@/components/Icon";
 import { EASE_OUT } from "@/components/ui";
-import { subscribePedido } from "@/lib/pedidos";
+import { subscribePedido, cancelarPedido } from "@/lib/pedidos";
 import { useWhatsapp } from "@/lib/hooks";
+import { useAuth } from "@/lib/auth";
 import { brl } from "@/lib/store";
 import type { Pedido } from "@/lib/types";
 
@@ -27,10 +28,12 @@ function Negociacao() {
   const params = useSearchParams();
   const id = params.get("id");
   const whatsapp = useWhatsapp();
+  const { cliente } = useAuth();
 
   const [pedido, setPedido] = useState<Pedido | null | undefined>(undefined);
   const [loadedId, setLoadedId] = useState<string | null>(null);
   const [showCancel, setShowCancel] = useState(false);
+  const [cancelando, setCancelando] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -43,6 +46,12 @@ function Negociacao() {
     if (!id) return;
     return subscribePedido(id, setPedido);
   }, [id]);
+
+  useEffect(() => {
+    if (pedido && pedido.estado !== "em_negociacao") {
+      router.replace(`/pedidos/${pedido.id}`);
+    }
+  }, [pedido, router]);
 
   useEffect(() => () => {
     if (timer.current) clearTimeout(timer.current);
@@ -68,7 +77,7 @@ function Negociacao() {
     );
   }
 
-  if (pedido === undefined) {
+  if (pedido === undefined || pedido.estado !== "em_negociacao") {
     return (
       <Shell>
         <div style={{ padding: "120px 0", textAlign: "center", fontFamily: "var(--font-manrope), sans-serif", color: "#999999" }}>
@@ -419,13 +428,21 @@ function Negociacao() {
               </DialogBtn>
               <DialogBtn
                 variant="danger"
-                onClick={() => {
-                  setShowCancel(false);
-                  showToast("Solicitação de cancelamento enviada.");
-                  router.push("/pedidos");
+                disabled={cancelando}
+                onClick={async () => {
+                  setCancelando(true);
+                  try {
+                    await cancelarPedido(pedido.id, cliente?.nome ?? "Cliente");
+                    setShowCancel(false);
+                    showToast("Pedido cancelado.");
+                    router.push("/pedidos");
+                  } catch {
+                    setCancelando(false);
+                    showToast("Não deu para cancelar. Tente de novo.");
+                  }
                 }}
               >
-                Sim, cancelar
+                {cancelando ? "Cancelando..." : "Sim, cancelar"}
               </DialogBtn>
             </div>
           </Modal>
@@ -572,10 +589,12 @@ function DialogBtn({
   children,
   onClick,
   variant,
+  disabled,
 }: {
   children: React.ReactNode;
   onClick: () => void;
   variant: "ghost" | "danger";
+  disabled?: boolean;
 }) {
   const [hover, setHover] = useState(false);
   const styles = {
@@ -590,6 +609,7 @@ function DialogBtn({
   return (
     <motion.button
       onClick={onClick}
+      disabled={disabled}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       whileTap={{ scale: 0.97 }}
@@ -597,10 +617,11 @@ function DialogBtn({
         flex: 1,
         height: 44,
         borderRadius: 8,
+        opacity: disabled ? 0.6 : 1,
+        cursor: disabled ? "not-allowed" : "pointer",
         fontFamily: "var(--font-archivo), sans-serif",
         fontWeight: 700,
         fontSize: 14,
-        cursor: "pointer",
         transition: "all 200ms var(--ease-out)",
         ...styles,
       }}

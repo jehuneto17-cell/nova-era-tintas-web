@@ -131,8 +131,11 @@ export default function EditarPerfilPage() {
     else router.push("/perfil");
   }
 
+  useEffect(() => {
+    if (!authLoading && !user) router.replace("/login");
+  }, [authLoading, user, router]);
+
   if (!authLoading && !user) {
-    router.replace("/login");
     return null;
   }
 

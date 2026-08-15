@@ -10,15 +10,23 @@ import { subscribePedido } from "@/lib/pedidos";
 import { brl } from "@/lib/store";
 import type { Pedido } from "@/lib/types";
 
-const MOTIVO = {
-  label: "Comprovante não confirmado",
-  desc: "Não conseguimos validar as informações do comprovante enviado. Confira as dicas abaixo e tente novamente.",
-  tips: [
-    "Tire uma foto ou screenshot clara da tela de confirmação",
-    "Certifique-se que está bem iluminada e sem borrão",
-    "Evite reflexos ou ângulos muito inclinados",
-  ],
-};
+const PREFIXO_RECUSA = "Comprovante recusado:";
+
+const DICAS = [
+  "Tire uma foto ou screenshot clara da tela de confirmação",
+  "Certifique-se que está bem iluminada e sem borrão",
+  "Evite reflexos ou ângulos muito inclinados",
+];
+
+function motivoRecusa(pedido: Pedido): string {
+  if (pedido.ultimaRecusa?.motivo) return pedido.ultimaRecusa.motivo;
+  const ultima = pedido.historico[pedido.historico.length - 1];
+  const obs = ultima?.observacao ?? "";
+  if (obs.startsWith(PREFIXO_RECUSA)) {
+    return obs.slice(PREFIXO_RECUSA.length).trim();
+  }
+  return "Não foi possível validar o comprovante enviado.";
+}
 
 function pedidoTotal(p: Pedido) {
   return p.itens.reduce((s, i) => s + i.preco * i.qtd, 0) + p.frete;
@@ -77,6 +85,8 @@ function Recusado() {
   }
 
   const total = pedidoTotal(pedido);
+  const motivo = motivoRecusa(pedido);
+  const comprovanteAnterior = pedido.ultimaRecusa?.comprovanteUrl ?? pedido.comprovanteUrl;
 
   return (
     <Shell>
@@ -204,7 +214,7 @@ function Recusado() {
                   marginBottom: 12,
                 }}
               >
-                Motivo da Recusa: {MOTIVO.label}
+                Motivo da Recusa
               </div>
               <p
                 style={{
@@ -214,7 +224,7 @@ function Recusado() {
                   color: "#012418",
                 }}
               >
-                {MOTIVO.desc}
+                {motivo}
               </p>
             </div>
           </motion.div>
@@ -241,7 +251,7 @@ function Recusado() {
               Como Resolver
             </div>
             <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-              {MOTIVO.tips.map((text, i) => (
+              {DICAS.map((text, i) => (
                 <motion.div
                   key={text}
                   initial={{ opacity: 0, x: -8 }}
@@ -281,6 +291,47 @@ function Recusado() {
               ))}
             </div>
           </div>
+
+          {/* Comprovante anterior */}
+          {comprovanteAnterior && (
+            <div
+              style={{
+                background: "#FFFFFF",
+                border: "1px solid #E5E5E5",
+                borderRadius: 12,
+                padding: 20,
+                marginBottom: 24,
+              }}
+            >
+              <div
+                style={{
+                  fontFamily: "var(--font-archivo), sans-serif",
+                  fontWeight: 700,
+                  fontSize: 14,
+                  color: "#012418",
+                  marginBottom: 16,
+                }}
+              >
+                Comprovante Anterior
+              </div>
+              <div
+                style={{
+                  width: 200,
+                  maxWidth: "100%",
+                  height: 150,
+                  margin: "0 auto",
+                  borderRadius: 8,
+                  overflow: "hidden",
+                  border: "1px solid #E5E5E5",
+                  background: "#F8F8F8",
+                  opacity: 0.6,
+                }}
+              >
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={comprovanteAnterior} alt="Comprovante recusado" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+              </div>
+            </div>
+          )}
 
           {/* Facts */}
           <div
