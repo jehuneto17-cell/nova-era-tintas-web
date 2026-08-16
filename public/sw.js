@@ -1,4 +1,4 @@
-const CACHE_NAME = 'nova-era-v1';
+const CACHE_NAME = 'nova-era-v2';
 const urlsToCache = [
   '/',
   '/favicon.png',
@@ -37,21 +37,18 @@ self.addEventListener('fetch', event => {
   }
 
   event.respondWith(
-    caches.match(event.request).then(response => {
-      if (response) {
+    fetch(event.request).then(response => {
+      if (!response || response.status !== 200 || response.type !== 'basic') {
         return response;
       }
-      return fetch(event.request).then(response => {
-        if (!response || response.status !== 200 || response.type !== 'basic') {
-          return response;
-        }
-        const responseToCache = response.clone();
-        caches.open(CACHE_NAME).then(cache => {
-          cache.put(event.request, responseToCache);
-        });
-        return response;
-      }).catch(() => {
-        return caches.match('/');
+      const responseToCache = response.clone();
+      caches.open(CACHE_NAME).then(cache => {
+        cache.put(event.request, responseToCache);
+      });
+      return response;
+    }).catch(() => {
+      return caches.match(event.request).then(response => {
+        return response || caches.match('/');
       });
     })
   );

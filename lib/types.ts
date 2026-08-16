@@ -121,7 +121,7 @@ export interface Cliente {
 
 export interface BrandingConfig {
   logo_url: string | null;
-  banner_url: string | null;
+  banner_url_web: string | null;
   descricao: string;
   telefone: string;
   email: string;

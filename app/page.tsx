@@ -30,88 +30,23 @@ export default function HomePage() {
         transition={{ duration: 0.4 }}
         style={{
           position: "relative",
-          height: 320,
+          height: 420,
           boxSizing: "border-box",
           borderRadius: 12,
           overflow: "hidden",
           marginBottom: 32,
         }}
       >
-        {branding?.banner_url ? (
+        {branding?.banner_url_web ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
-            src={branding.banner_url}
+            src={branding.banner_url_web}
             alt="Banner"
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
           />
         ) : (
           <Placeholder label="Solte a imagem do banner aqui" fontSize={13} />
         )}
-        <div
-          style={{
-            position: "absolute",
-            inset: 0,
-            display: "flex",
-            alignItems: "center",
-            padding: "40px 60px",
-            background:
-              "linear-gradient(90deg, rgba(0,36,24,.65) 0%, rgba(0,36,24,.15) 60%, rgba(0,36,24,0) 100%)",
-            pointerEvents: "none",
-          }}
-        >
-          <motion.div
-            initial={{ opacity: 0, x: -16 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.45, delay: 0.1, ease: [0, 0, 0.2, 1] }}
-            style={{ maxWidth: "50%", pointerEvents: "auto" }}
-          >
-            <h1
-              style={{
-                margin: "0 0 12px",
-                fontFamily: "var(--font-archivo), sans-serif",
-                fontWeight: 800,
-                fontSize: 36,
-                lineHeight: 1.15,
-                letterSpacing: "-0.02em",
-                color: "#FFFFFF",
-                textWrap: "balance",
-              }}
-            >
-              Tinta certa, obra pronta
-            </h1>
-            <p
-              style={{
-                margin: "0 0 20px",
-                fontFamily: "var(--font-manrope), sans-serif",
-                fontSize: 15,
-                color: "rgba(255,255,255,.85)",
-              }}
-            >
-              {branding?.descricao ?? "Linha premium com entrega rápida para toda a região."}
-            </p>
-            <Link href="/produtos">
-              <motion.span
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.97 }}
-                transition={{ duration: 0.2, ease: [0, 0, 0.2, 1] }}
-                style={{
-                  display: "inline-block",
-                  height: 48,
-                  lineHeight: "48px",
-                  padding: "0 32px",
-                  background: "#00B20B",
-                  color: "#FFFFFF",
-                  borderRadius: 8,
-                  fontFamily: "var(--font-archivo), sans-serif",
-                  fontWeight: 700,
-                  fontSize: 15,
-                }}
-              >
-                Ver Produtos
-              </motion.span>
-            </Link>
-          </motion.div>
-        </div>
       </motion.section>
 
       {/* Categorias em destaque */}
