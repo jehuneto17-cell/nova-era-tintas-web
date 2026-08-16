@@ -131,7 +131,7 @@ export interface BrandingConfig {
   logo_url: string | null;
   banner_url_web: string | null;
   descricao: string;
-  telefone: string;
+  whatsapp: string;
   email: string;
   redes_sociais: {
     instagram: string;
