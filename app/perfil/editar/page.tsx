@@ -11,6 +11,7 @@ import { Toast } from "@/components/AuthShell";
 import { EASE_OUT, Spinner } from "@/components/ui";
 import { useAuth } from "@/lib/auth";
 import { atualizarCliente } from "@/lib/clientes";
+import { uploadImage } from "@/lib/cloudinary";
 
 const INITIAL_ADDR = {
   cep: "",
@@ -31,6 +32,8 @@ export default function EditarPerfilPage() {
   const [telefoneTouched, setTelefoneTouched] = useState(false);
   const [cepStatus, setCepStatus] = useState<"idle" | "loading" | "ok" | "error">("idle");
   const [preview, setPreview] = useState<string | null>(null);
+  const [fotoUrl, setFotoUrl] = useState<string | null>(null);
+  const [uploadingFoto, setUploadingFoto] = useState(false);
   const [dirty, setDirty] = useState(false);
   const [saving, setSaving] = useState(false);
   const [toast, setToast] = useState(false);
@@ -50,8 +53,20 @@ export default function EditarPerfilPage() {
     if (!cliente || hydrated) return;
     Promise.resolve(cliente).then((c) => {
       setForm({ nome: c.nome, telefone: c.telefone, email: c.email });
+      setFotoUrl(c.fotoUrl ?? null);
       const principal = c.enderecos.find((e) => e.principal) ?? c.enderecos[0];
-      if (principal) setAddr((a) => ({ ...a, rua: principal.texto }));
+      if (principal) {
+        setAddr((a) => ({
+          ...a,
+          cep: principal.cep ?? "",
+          rua: principal.rua ?? principal.texto,
+          numero: principal.numero ?? "",
+          complemento: principal.complemento ?? "",
+          bairro: principal.bairro ?? "",
+          cidade: principal.cidade ?? "",
+          uf: principal.uf ?? "MG",
+        }));
+      }
       setHydrated(true);
     });
   }, [cliente, hydrated]);
@@ -69,15 +84,22 @@ export default function EditarPerfilPage() {
   const telDigits = form.telefone.replace(/\D/g, "");
   const showTelefoneError = telefoneTouched && telDigits.length > 0 && telDigits.length !== 11;
 
-  function onFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+  async function onFileChange(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file) return;
     const reader = new FileReader();
-    reader.onload = () => {
-      setPreview(reader.result as string);
-      setDirty(true);
-    };
+    reader.onload = () => setPreview(reader.result as string);
     reader.readAsDataURL(file);
+
+    setUploadingFoto(true);
+    try {
+      const { url } = await uploadImage(file);
+      setFotoUrl(url);
+      setDirty(true);
+    } finally {
+      setUploadingFoto(false);
+      if (fileInput.current) fileInput.current.value = "";
+    }
   }
 
   function buscarCep() {
@@ -104,16 +126,29 @@ export default function EditarPerfilPage() {
     if (!user || !cliente || saving) return;
     setSaving(true);
     try {
-      const enderecoTexto = [addr.rua, addr.numero, addr.complemento].filter(Boolean).join(", ");
+      const rua = addr.rua.trim();
+      const numero = addr.numero.trim();
+      const complemento = addr.complemento.trim();
+      const bairro = addr.bairro.trim();
+      const cidade = addr.cidade.trim();
+      const uf = addr.uf.trim();
+      const cep = addr.cep.trim();
+      const enderecoTexto = cep
+        ? `${rua}, ${numero}${complemento ? ` - ${complemento}` : ""} - ${bairro}, ${cidade}/${uf} - CEP ${cep}`
+        : [rua, numero, complemento].filter(Boolean).join(", ");
       const outros = cliente.enderecos.filter((e) => !e.principal);
       const principalId = cliente.enderecos.find((e) => e.principal)?.id ?? `end_${Date.now()}`;
       const enderecos = enderecoTexto
-        ? [{ id: principalId, rotulo: "Principal", texto: enderecoTexto, principal: true }, ...outros]
+        ? [
+            { id: principalId, rotulo: "Principal", texto: enderecoTexto, principal: true, cep, rua, numero, complemento, bairro, cidade, uf },
+            ...outros,
+          ]
         : cliente.enderecos;
 
       await atualizarCliente(user.uid, {
         nome: form.nome,
         telefone: form.telefone,
+        fotoUrl: fotoUrl ?? undefined,
         enderecos,
       });
       setSaving(false);
@@ -193,7 +228,7 @@ export default function EditarPerfilPage() {
             }}
           >
             <motion.div
-              key={preview ?? "initials"}
+              key={preview ?? fotoUrl ?? "initials"}
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.25, ease: EASE_OUT }}
@@ -214,10 +249,23 @@ export default function EditarPerfilPage() {
                 position: "relative",
               }}
             >
-              {preview ? (
-                <Image src={preview} alt="Pré-visualização do avatar" fill style={{ objectFit: "cover" }} unoptimized />
+              {preview || fotoUrl ? (
+                <Image src={(preview ?? fotoUrl) as string} alt="Foto de perfil" fill style={{ objectFit: "cover" }} unoptimized />
               ) : (
                 iniciais || "?"
+              )}
+              {uploadingFoto && (
+                <div
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    background: "rgba(1,36,24,.45)",
+                    display: "grid",
+                    placeItems: "center",
+                  }}
+                >
+                  <Spinner size={22} />
+                </div>
               )}
             </motion.div>
             <input
@@ -227,7 +275,18 @@ export default function EditarPerfilPage() {
               onChange={onFileChange}
               style={{ display: "none" }}
             />
-            <OutlineSmall onClick={() => fileInput.current?.click()}>Mudar Foto</OutlineSmall>
+            <div style={{ display: "flex", justifyContent: "center", gap: 12 }}>
+              <OutlineSmall onClick={() => fileInput.current?.click()}>Mudar Foto</OutlineSmall>
+              {fotoUrl && (
+                <RemovePhotoLink
+                  onClick={() => {
+                    setFotoUrl(null);
+                    setPreview(null);
+                    setDirty(true);
+                  }}
+                />
+              )}
+            </div>
             <div
               style={{
                 marginTop: 8,
@@ -238,24 +297,6 @@ export default function EditarPerfilPage() {
             >
               Máximo 5MB. Formatos: JPG ou PNG
             </div>
-            <AnimatePresence>
-              {preview && (
-                <motion.div
-                  initial={{ opacity: 0, y: -4 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0 }}
-                  style={{
-                    marginTop: 8,
-                    fontFamily: "var(--font-manrope), sans-serif",
-                    fontWeight: 600,
-                    fontSize: 12,
-                    color: "#00B20B",
-                  }}
-                >
-                  Foto será atualizada ao salvar
-                </motion.div>
-              )}
-            </AnimatePresence>
           </motion.div>
 
           {/* Personal */}
@@ -683,6 +724,31 @@ function OutlineSmall({ onClick, children }: { onClick: () => void; children: Re
     >
       {children}
     </motion.button>
+  );
+}
+
+function RemovePhotoLink({ onClick }: { onClick: () => void }) {
+  const [hover, setHover] = useState(false);
+  return (
+    <button
+      onClick={onClick}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      style={{
+        height: 40,
+        padding: "10px 4px",
+        background: "transparent",
+        border: "none",
+        color: hover ? "#E63946" : "#999999",
+        fontFamily: "var(--font-manrope), sans-serif",
+        fontWeight: 600,
+        fontSize: 14,
+        cursor: "pointer",
+        transition: "color 200ms var(--ease-out)",
+      }}
+    >
+      Remover Foto
+    </button>
   );
 }
 

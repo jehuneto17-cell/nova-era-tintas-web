@@ -107,6 +107,13 @@ export interface ClienteEndereco {
   rotulo: string;
   texto: string;
   principal: boolean;
+  cep?: string;
+  rua?: string;
+  numero?: string;
+  complemento?: string;
+  bairro?: string;
+  cidade?: string;
+  uf?: string;
 }
 
 export interface Cliente {
@@ -115,6 +122,7 @@ export interface Cliente {
   telefone: string;
   email: string;
   desde: string;
+  fotoUrl?: string;
   enderecos: ClienteEndereco[];
   historicoEnderecos: string[];
 }

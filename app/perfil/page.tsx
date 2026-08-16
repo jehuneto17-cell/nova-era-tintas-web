@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { Shell } from "@/components/Shell";
 import { Modal } from "@/components/Modal";
@@ -130,9 +131,15 @@ export default function PerfilPage() {
                   fontWeight: 800,
                   fontSize: 48,
                   color: "#FFFFFF",
+                  overflow: "hidden",
+                  position: "relative",
                 }}
               >
-                {iniciais || "?"}
+                {cliente.fotoUrl ? (
+                  <Image src={cliente.fotoUrl} alt="Foto de perfil" fill style={{ objectFit: "cover" }} unoptimized />
+                ) : (
+                  iniciais || "?"
+                )}
               </div>
             </div>
             <h1

@@ -1,4 +1,4 @@
-import { doc, getDoc, onSnapshot, setDoc, updateDoc, type Unsubscribe } from "firebase/firestore";
+import { deleteField, doc, getDoc, onSnapshot, setDoc, updateDoc, type Unsubscribe } from "firebase/firestore";
 import { db } from "./firebase";
 import type { Cliente, ClienteEndereco } from "./types";
 
@@ -9,6 +9,7 @@ function toCliente(id: string, data: Record<string, unknown>): Cliente {
     telefone: (data.telefone as string) ?? "",
     email: (data.email as string) ?? "",
     desde: (data.desde as string) ?? "",
+    fotoUrl: data.fotoUrl as string | undefined,
     enderecos: (data.enderecos as ClienteEndereco[]) ?? [],
     historicoEnderecos: (data.historicoEnderecos as string[]) ?? [],
   };
@@ -46,5 +47,9 @@ export async function atualizarCliente(
   uid: string,
   dados: Partial<Omit<Cliente, "id">>
 ): Promise<void> {
-  await updateDoc(doc(db, "clientes", uid), dados);
+  const { fotoUrl, ...resto } = dados;
+  await updateDoc(doc(db, "clientes", uid), {
+    ...resto,
+    ...(("fotoUrl" in dados) ? { fotoUrl: fotoUrl === undefined ? deleteField() : fotoUrl } : {}),
+  });
 }
