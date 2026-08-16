@@ -142,6 +142,14 @@ O `historico` é append-only: registre cada transição de estado.
 
 Nunca duplique em estado local o que já está nesses contextos.
 
+### Login social (Google + Apple)
+
+`useAuth()` expõe `loginComGoogle()` e `loginComApple()`, além de `login`/`cadastrar`/`logout`. Ambos usam `signInWithPopup` do Firebase (`GoogleAuthProvider` / `OAuthProvider("apple.com")`) e, no primeiro acesso, criam o doc em `clientes` automaticamente (via `garantirCliente` em `lib/auth.tsx`, usando `getCliente` de `lib/clientes.ts`) — sem passar por `/cadastro`.
+
+Os botões ficam em `components/AuthShell.tsx`: `SocialAuthButtons` (Google + Apple lado a lado) e `AuthDivider` ("ou continue com"), usados em `/login` e `/cadastro` acima do formulário de email/senha, espelhando o padrão visual do app mobile.
+
+> ⚠️ **Apple Sign-In exige configuração extra no Firebase Console** (Authentication → Sign-in method → Apple) e conta Apple Developer com "Sign in with Apple" habilitado. Sem isso, o botão Apple mostra erro ao clicar. Google normalmente já vem habilitado por padrão no Firebase.
+
 ---
 
 ## 8. Variáveis de Ambiente

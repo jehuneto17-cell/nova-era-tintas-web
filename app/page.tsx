@@ -45,7 +45,10 @@ export default function HomePage() {
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
           />
         ) : (
-          <Placeholder label="Solte a imagem do banner aqui" fontSize={13} />
+          <Placeholder
+            label={"Solte a imagem do banner aqui\nTamanho recomendado: 1600×320px (proporção ~5:1)"}
+            fontSize={13}
+          />
         )}
       </motion.section>
 

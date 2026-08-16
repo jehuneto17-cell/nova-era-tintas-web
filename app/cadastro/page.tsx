@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { AuthShell, Toast } from "@/components/AuthShell";
+import { AuthDivider, AuthShell, SocialAuthButtons, Toast } from "@/components/AuthShell";
 import { EASE_OUT, Spinner } from "@/components/ui";
 import { useAuth } from "@/lib/auth";
 
@@ -25,7 +25,7 @@ function passwordStrength(pw: string) {
 /** Screen 12 — Cadastro. */
 export default function CadastroPage() {
   const router = useRouter();
-  const { cadastrar } = useAuth();
+  const { cadastrar, loginComGoogle, loginComApple } = useAuth();
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [telefone, setTelefone] = useState("");
@@ -36,6 +36,7 @@ export default function CadastroPage() {
   const [showConfirmar, setShowConfirmar] = useState(false);
   const [terms, setTerms] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [socialLoading, setSocialLoading] = useState(false);
   const [toast, setToast] = useState<"success" | "error" | null>(null);
   const [errorMsg, setErrorMsg] = useState("Erro ao criar conta.");
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -96,6 +97,31 @@ export default function CadastroPage() {
     }
   }
 
+  async function submitSocial(fn: () => Promise<void>) {
+    setSocialLoading(true);
+    try {
+      await fn();
+      setSocialLoading(false);
+      setToast("success");
+      if (timer.current) clearTimeout(timer.current);
+      timer.current = setTimeout(() => {
+        setToast(null);
+        router.push("/");
+      }, 1500);
+    } catch (err) {
+      setSocialLoading(false);
+      const code = (err as { code?: string })?.code;
+      setErrorMsg(
+        code === "auth/popup-closed-by-user"
+          ? "Login cancelado"
+          : "Não foi possível continuar. Tente novamente."
+      );
+      setToast("error");
+      if (timer.current) clearTimeout(timer.current);
+      timer.current = setTimeout(() => setToast(null), 5000);
+    }
+  }
+
   return (
     <AuthShell>
       <form
@@ -132,6 +158,13 @@ export default function CadastroPage() {
         >
           Preencha os dados para começar suas compras
         </p>
+
+        <SocialAuthButtons
+          onGoogle={() => submitSocial(loginComGoogle)}
+          onApple={() => submitSocial(loginComApple)}
+          disabled={socialLoading}
+        />
+        <AuthDivider />
 
         <AuthField
           id="nome"

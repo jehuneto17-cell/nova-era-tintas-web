@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { AuthShell, Checkbox, Toast } from "@/components/AuthShell";
+import { AuthDivider, AuthShell, Checkbox, SocialAuthButtons, Toast } from "@/components/AuthShell";
 import { EASE_OUT, Spinner } from "@/components/ui";
 import { useAuth } from "@/lib/auth";
 
@@ -28,7 +28,7 @@ function friendlyError(err: unknown): string {
 /** Screen 11 — Login. */
 export default function LoginPage() {
   const router = useRouter();
-  const { login } = useAuth();
+  const { login, loginComGoogle, loginComApple } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailTouched, setEmailTouched] = useState(false);
@@ -37,6 +37,7 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [remember, setRemember] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [socialLoading, setSocialLoading] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -69,6 +70,19 @@ export default function LoginPage() {
     }
   }
 
+  async function submitSocial(fn: () => Promise<void>) {
+    setSocialLoading(true);
+    try {
+      await fn();
+      router.push("/");
+    } catch (err) {
+      setSocialLoading(false);
+      setToast(friendlyError(err));
+      if (timer.current) clearTimeout(timer.current);
+      timer.current = setTimeout(() => setToast(null), 4000);
+    }
+  }
+
   return (
     <AuthShell>
       <form
@@ -94,6 +108,13 @@ export default function LoginPage() {
         >
           Entrar na sua conta
         </h1>
+
+        <SocialAuthButtons
+          onGoogle={() => submitSocial(loginComGoogle)}
+          onApple={() => submitSocial(loginComApple)}
+          disabled={socialLoading}
+        />
+        <AuthDivider />
 
         <div style={{ marginBottom: 20 }}>
           <label
