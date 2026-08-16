@@ -368,6 +368,26 @@ export default function PerfilPage() {
               </div>
             ))}
           </div>
+
+          <div
+            style={{
+              paddingTop: 24,
+              textAlign: "center",
+              fontFamily: "var(--font-manrope), sans-serif",
+              fontSize: 12,
+              color: "#999999",
+            }}
+          >
+            Desenvolvido por{" "}
+            <a
+              href="https://www.instagram.com/jehu_dev_e.commerce/"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: "#00B20B", textDecoration: "none" }}
+            >
+              @JEHU_DEV_E.COMMERCE
+            </a>
+          </div>
         </div>
       </div>
 
