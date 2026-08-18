@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { Shell } from "@/components/Shell";
 import { ProductCard } from "@/components/ProductCard";
 import { Placeholder } from "@/components/Placeholder";
-import { Icon, categoryIcon } from "@/components/Icon";
+import { CategoryIcon } from "@/components/CategoryIcon";
 import { SectionTitle } from "@/components/ui";
 import { useBranding, useCategoriasAtivas, useProdutos } from "@/lib/hooks";
 import { estoqueTotal, precoMinimo } from "@/lib/produtos";
@@ -153,7 +153,7 @@ function CategoryTile({ category, index }: { category: Categoria; index: number 
             background: "linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,.55) 100%)",
           }}
         >
-          <Icon name={categoryIcon(category.icone)} size={40} color="#FFFFFF" />
+          <CategoryIcon icone={category.icone} size={40} color="#FFFFFF" />
           <div>
             <div
               style={{

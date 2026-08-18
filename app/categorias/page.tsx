@@ -4,7 +4,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { Shell } from "@/components/Shell";
-import { Icon, categoryIcon } from "@/components/Icon";
+import { CategoryIcon } from "@/components/CategoryIcon";
 import { EASE_OUT } from "@/components/ui";
 import { useCategoriasAtivas } from "@/lib/hooks";
 import type { Categoria } from "@/lib/types";
@@ -132,7 +132,7 @@ function CategoryCard({ category, index }: { category: Categoria; index: number 
             transition={{ duration: 0.25, ease: EASE_OUT }}
             style={{ position: "relative", zIndex: 1 }}
           >
-            <Icon name={categoryIcon(category.icone)} size={48} color="#FFFFFF" />
+            <CategoryIcon icone={category.icone} size={48} color="#FFFFFF" />
           </motion.div>
         </div>
         <div style={{ padding: 20 }}>

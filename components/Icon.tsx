@@ -61,11 +61,6 @@ export const ICON_PATHS = {
   palette: ["M12 3a9 9 0 1 0 0 18c1.1 0 2-.9 2-2 0-.5-.2-1-.5-1.3-.3-.4-.5-.8-.5-1.2 0-.9.7-1.5 1.5-1.5H16a5 5 0 0 0 5-5c0-4.4-4-7-9-7z", "M7.5 11a1 1 0 1 0 0-2 1 1 0 0 0 0 2z", "M10.5 8a1 1 0 1 0 0-2 1 1 0 0 0 0 2z", "M15.5 8a1 1 0 1 0 0-2 1 1 0 0 0 0 2z", "M17.5 12a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"],
 } as const;
 
-/** Resolve o id de ícone salvo em `categorias/{id}.icone` para um IconName válido, com fallback para "package". */
-export function categoryIcon(icone: string): IconName {
-  return icone in ICON_PATHS ? (icone as IconName) : "package";
-}
-
 export type IconName = keyof typeof ICON_PATHS;
 
 export function Icon({
