@@ -25,7 +25,7 @@ function passwordStrength(pw: string) {
 /** Screen 12 — Cadastro. */
 export default function CadastroPage() {
   const router = useRouter();
-  const { cadastrar, loginComGoogle, loginComApple } = useAuth();
+  const { user, loading: authLoading, cadastrar, loginComGoogle, loginComApple } = useAuth();
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [telefone, setTelefone] = useState("");
@@ -44,6 +44,10 @@ export default function CadastroPage() {
   useEffect(() => () => {
     if (timer.current) clearTimeout(timer.current);
   }, []);
+
+  useEffect(() => {
+    if (!authLoading && user) router.replace("/");
+  }, [authLoading, user, router]);
 
   const nomeValid = nome.trim().length >= 3;
   const emailValid = EMAIL_RE.test(email);
@@ -120,6 +124,16 @@ export default function CadastroPage() {
       if (timer.current) clearTimeout(timer.current);
       timer.current = setTimeout(() => setToast(null), 5000);
     }
+  }
+
+  if (authLoading || user) {
+    return (
+      <AuthShell>
+        <div style={{ padding: "120px 0", textAlign: "center", fontFamily: "var(--font-manrope), sans-serif", color: "#999999" }}>
+          Carregando...
+        </div>
+      </AuthShell>
+    );
   }
 
   return (

@@ -40,7 +40,7 @@ function gerarNumero() {
 export default function ConfirmacaoPage() {
   const router = useRouter();
   const { items, subtotal, resetCart } = useStore();
-  const { user, cliente } = useAuth();
+  const { user, cliente, loading: authLoading } = useAuth();
   const [toast, setToast] = useState(false);
   const [status, setStatus] = useState<"creating" | "done" | "error">("creating");
   const [pedidoId, setPedidoId] = useState<string | null>(null);
@@ -57,6 +57,7 @@ export default function ConfirmacaoPage() {
 
   useEffect(() => {
     if (started.current) return;
+    if (authLoading) return;
     started.current = true;
 
     if (!user || !cliente) {
@@ -112,7 +113,7 @@ export default function ConfirmacaoPage() {
       })
       .catch(() => setStatus("error"));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [authLoading]);
 
   function copyOrder() {
     if (!numero) return;

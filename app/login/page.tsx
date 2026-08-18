@@ -28,7 +28,7 @@ function friendlyError(err: unknown): string {
 /** Screen 11 — Login. */
 export default function LoginPage() {
   const router = useRouter();
-  const { login, loginComGoogle, loginComApple } = useAuth();
+  const { user, loading: authLoading, login, loginComGoogle, loginComApple } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [emailTouched, setEmailTouched] = useState(false);
@@ -44,6 +44,10 @@ export default function LoginPage() {
   useEffect(() => () => {
     if (timer.current) clearTimeout(timer.current);
   }, []);
+
+  useEffect(() => {
+    if (!authLoading && user) router.replace("/");
+  }, [authLoading, user, router]);
 
   const emailValid = email === "" || EMAIL_RE.test(email);
   const showEmailError = emailTouched && email !== "" && !emailValid;
@@ -81,6 +85,16 @@ export default function LoginPage() {
       if (timer.current) clearTimeout(timer.current);
       timer.current = setTimeout(() => setToast(null), 4000);
     }
+  }
+
+  if (authLoading || user) {
+    return (
+      <AuthShell>
+        <div style={{ padding: "120px 0", textAlign: "center", fontFamily: "var(--font-manrope), sans-serif", color: "#999999" }}>
+          Carregando...
+        </div>
+      </AuthShell>
+    );
   }
 
   return (
