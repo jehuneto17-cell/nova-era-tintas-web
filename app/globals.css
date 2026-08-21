@@ -292,3 +292,30 @@ a:hover {
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Rich text da descrição do produto (HTML salvo pelo editor do painel adm). */
+.descricao-produto p {
+  margin: 0 0 12px;
+}
+.descricao-produto p:last-child {
+  margin-bottom: 0;
+}
+.descricao-produto h3 {
+  font-family: var(--font-archivo), sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--ink);
+  margin: 0 0 8px;
+}
+.descricao-produto ul {
+  margin: 0 0 12px;
+  padding-left: 20px;
+}
+.descricao-produto li {
+  margin-bottom: 4px;
+}
+.descricao-produto b,
+.descricao-produto strong {
+  font-weight: 700;
+  color: var(--ink);
+}

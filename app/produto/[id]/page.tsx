@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { use, useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import DOMPurify from "isomorphic-dompurify";
 import { Shell } from "@/components/Shell";
 import { ProductCard } from "@/components/ProductCard";
 import { Placeholder } from "@/components/Placeholder";
@@ -441,18 +442,37 @@ export default function ProdutoPage({ params }: { params: Promise<{ id: string }
           open={open.desc}
           onToggle={() => setOpen((s) => ({ ...s, desc: !s.desc }))}
         >
-          <p
-            style={{
-              margin: 0,
-              fontFamily: "var(--font-manrope), sans-serif",
-              fontSize: 14,
-              lineHeight: 1.6,
-              color: "#666666",
-              textWrap: "pretty",
-            }}
-          >
-            {produto.descricao || "Sem descrição disponível para este produto."}
-          </p>
+          {produto.descricao ? (
+            <div
+              className="descricao-produto"
+              style={{
+                fontFamily: "var(--font-manrope), sans-serif",
+                fontSize: 14,
+                lineHeight: 1.6,
+                color: "#666666",
+                textWrap: "pretty",
+              }}
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(produto.descricao, {
+                  ALLOWED_TAGS: ["h3", "p", "b", "i", "u", "ul", "li", "div", "br", "strong", "em"],
+                  ALLOWED_ATTR: [],
+                }),
+              }}
+            />
+          ) : (
+            <p
+              style={{
+                margin: 0,
+                fontFamily: "var(--font-manrope), sans-serif",
+                fontSize: 14,
+                lineHeight: 1.6,
+                color: "#666666",
+                textWrap: "pretty",
+              }}
+            >
+              Sem descrição disponível para este produto.
+            </p>
+          )}
         </Accordion>
 
         {produto.specs.length > 0 && (
