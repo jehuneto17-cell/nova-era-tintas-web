@@ -105,7 +105,7 @@ export default function ProdutosPage() {
     let list = produtos.filter((p) => {
       if (selectedCategorias.length > 0 && !selectedCategorias.includes(p.categoria)) return false;
       if (selectedVolumes.length > 0 && !p.volumes.some((v) => selectedVolumes.includes(v))) return false;
-      if (color && !p.cores.some((c) => c.nome === color)) return false;
+      if (color && !p.todasCores && !p.cores.some((c) => c.nome === color)) return false;
       const preco = precoMinimo(p);
       if (preco < minVal || preco > maxVal) return false;
       return true;

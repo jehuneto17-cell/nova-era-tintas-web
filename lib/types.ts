@@ -11,6 +11,15 @@ export interface ProdutoCor {
   hex: string;
 }
 
+export interface CorTinta {
+  id: string;
+  codigo: string;
+  nome: string;
+  familia: string;
+  hex: string;
+  ativa: boolean;
+}
+
 export interface ProdutoSpec {
   nome: string;
   valor: string;
@@ -31,6 +40,7 @@ export interface Produto {
   descontoPct: number;
   ativo: boolean;
   cores: ProdutoCor[];
+  todasCores?: boolean;
   volumes: string[];
   variacoes: Record<string, ProdutoVariacao>;
   specs: ProdutoSpec[];

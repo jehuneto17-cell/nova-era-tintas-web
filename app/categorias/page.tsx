@@ -6,12 +6,15 @@ import { useState } from "react";
 import { Shell } from "@/components/Shell";
 import { CategoryIcon } from "@/components/CategoryIcon";
 import { EASE_OUT } from "@/components/ui";
-import { useCategoriasAtivas } from "@/lib/hooks";
+import { useCategoriasAtivas, useProdutos } from "@/lib/hooks";
+import { contarPorCategoria } from "@/lib/produtos";
 import type { Categoria } from "@/lib/types";
 
 /** Screen 7 — Categorias. */
 export default function CategoriasPage() {
   const { categorias, loading } = useCategoriasAtivas();
+  const { produtos } = useProdutos();
+  const qtdPorCategoria = contarPorCategoria(produtos);
 
   return (
     <Shell breadcrumb={[{ label: "Início", href: "/" }, { label: "Categorias" }]}>
@@ -78,7 +81,7 @@ export default function CategoriasPage() {
       ) : (
         <div className="grid-4">
           {categorias.map((c, i) => (
-            <CategoryCard key={c.id} category={c} index={i} />
+            <CategoryCard key={c.id} category={c} index={i} qtd={qtdPorCategoria.get(c.id) ?? 0} />
           ))}
         </div>
       )}
@@ -86,7 +89,7 @@ export default function CategoriasPage() {
   );
 }
 
-function CategoryCard({ category, index }: { category: Categoria; index: number }) {
+function CategoryCard({ category, index, qtd }: { category: Categoria; index: number; qtd: number }) {
   const [hover, setHover] = useState(false);
 
   return (
@@ -156,7 +159,7 @@ function CategoryCard({ category, index }: { category: Categoria; index: number 
               marginBottom: 12,
             }}
           >
-            {category.qtdProdutos} produtos
+            {qtd} produtos
           </div>
           <span
             style={{

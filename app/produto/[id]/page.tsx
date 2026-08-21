@@ -10,8 +10,79 @@ import { Placeholder } from "@/components/Placeholder";
 import { Heart, Icon } from "@/components/Icon";
 import { PrimaryButton, QtyStepper, SecondaryButton, SectionTitle, Stars, EASE_OUT } from "@/components/ui";
 import { getProduto, getProdutosPorCategoria, precoMaximo, precoMinimo } from "@/lib/produtos";
+import { agruparPorFamilia, CHAVE_TODAS_CORES, getPaletaCores } from "@/lib/cores";
 import { useStore } from "@/lib/store";
-import type { Produto } from "@/lib/types";
+import type { CorTinta, Produto } from "@/lib/types";
+
+/**
+ * Descrições podem vir de duas fontes:
+ * 1. O editor do painel admin (document.execCommand), que no Chrome/Edge gera
+ *    `<span style="font-weight: bold">` em vez de `<strong>`.
+ * 2. Texto colado de outro site (ex: página de fabricante), trazendo `<h1>`-`<h6>`
+ *    e `<div>` aninhados com classes/estilos que não sobrevivem ao sanitizer.
+ * Como o sanitizer abaixo remove `style`/`class` e só permite um conjunto restrito
+ * de tags, este normalizador reescreve a árvore para essas tags antes de sanitizar,
+ * preservando títulos, negrito/itálico/sublinhado e a separação entre parágrafos.
+ */
+function normalizarHtmlColado(html: string): string {
+  if (typeof window === "undefined") return html;
+
+  const container = document.createElement("div");
+  container.innerHTML = html;
+
+  container.querySelectorAll("span[style]").forEach((span) => {
+    const style = (span.getAttribute("style") || "").toLowerCase();
+    let wrapper: HTMLElement = span as HTMLElement;
+
+    if (/font-weight:\s*(bold|[6-9]00)/.test(style)) {
+      const strong = document.createElement("strong");
+      strong.innerHTML = wrapper.innerHTML;
+      wrapper.replaceWith(strong);
+      wrapper = strong;
+    }
+    if (/font-style:\s*italic/.test(style)) {
+      const em = document.createElement("em");
+      em.innerHTML = wrapper.innerHTML;
+      wrapper.replaceWith(em);
+      wrapper = em;
+    }
+    if (/text-decoration:\s*underline/.test(style)) {
+      const u = document.createElement("u");
+      u.innerHTML = wrapper.innerHTML;
+      wrapper.replaceWith(u);
+      wrapper = u;
+    }
+  });
+
+  container.querySelectorAll("h1, h2, h4, h5, h6").forEach((heading) => {
+    const h3 = document.createElement("h3");
+    h3.innerHTML = heading.innerHTML;
+    heading.replaceWith(h3);
+  });
+
+  container.querySelectorAll("div").forEach((div) => {
+    const temBlocoFilho = div.querySelector("div, h3, p, ul");
+    if (!temBlocoFilho && div.textContent?.trim()) {
+      const p = document.createElement("p");
+      p.innerHTML = div.innerHTML;
+      div.replaceWith(p);
+    }
+  });
+
+  return container.innerHTML;
+}
+
+/** Converte descrição em texto puro (com quebras de linha) em HTML, preservando descrições já em HTML. */
+function descricaoParaHtml(descricao: string): string {
+  const pareceHtml = /<\/?[a-z][\s\S]*>/i.test(descricao);
+  if (pareceHtml) return normalizarHtmlColado(descricao);
+
+  const escapado = descricao
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+  return escapado.replace(/\n/g, "<br>");
+}
 
 /** Screen 2 — Produto Detalhe. */
 export default function ProdutoPage({ params }: { params: Promise<{ id: string }> }) {
@@ -24,6 +95,8 @@ export default function ProdutoPage({ params }: { params: Promise<{ id: string }
   const [img, setImg] = useState(0);
   const [dir, setDir] = useState(1);
   const [colorIdx, setColorIdx] = useState(0);
+  const [paleta, setPaleta] = useState<CorTinta[]>([]);
+  const [corPaletaId, setCorPaletaId] = useState<string | null>(null);
   const [volumeIdx, setVolumeIdx] = useState(0);
   const [qty, setQty] = useState(1);
   const [open, setOpen] = useState({ desc: true, spec: false, rev: false });
@@ -40,12 +113,21 @@ export default function ProdutoPage({ params }: { params: Promise<{ id: string }
       if (!active) return;
       setProduto(p);
       setColorIdx(0);
+      setCorPaletaId(null);
+      setPaleta([]);
       setVolumeIdx(0);
       setImg(0);
       if (p) {
         getProdutosPorCategoria(p.categoriaId).then((list) => {
           if (active) setRelated(list.filter((r) => r.id !== p.id).slice(0, 4));
         });
+        if (p.todasCores) {
+          getPaletaCores().then((cores) => {
+            if (!active) return;
+            setPaleta(cores);
+            setCorPaletaId(cores[0]?.id ?? null);
+          });
+        }
       }
     });
     return () => {
@@ -56,10 +138,13 @@ export default function ProdutoPage({ params }: { params: Promise<{ id: string }
   const shots = produto?.fotos.length ? produto.fotos.map((f) => f.url) : [];
   const fav = produto ? favorites.includes(produto.id) : false;
 
-  const selectedCor = produto?.cores[colorIdx]?.nome;
+  const corSelecionadaPaleta = paleta.find((c) => c.id === corPaletaId);
+  const selectedCor = produto?.todasCores ? corSelecionadaPaleta?.nome : produto?.cores[colorIdx]?.nome;
   const selectedVolume = produto?.volumes[volumeIdx];
-  const variacaoChave = selectedCor && selectedVolume ? `${selectedCor}|${selectedVolume}` : null;
+  const chaveCor = produto?.todasCores ? CHAVE_TODAS_CORES : selectedCor;
+  const variacaoChave = chaveCor && selectedVolume ? `${chaveCor}|${selectedVolume}` : null;
   const variacao = produto && variacaoChave ? produto.variacoes[variacaoChave] : undefined;
+  const familias = useMemo(() => agruparPorFamilia(paleta), [paleta]);
 
   const precoMin = produto ? precoMinimo(produto) : 0;
   const precoMax = produto ? precoMaximo(produto) : 0;
@@ -142,7 +227,7 @@ export default function ProdutoPage({ params }: { params: Promise<{ id: string }
     );
   }
 
-  const canAdd = !!variacao && variacao.ativo && variacao.estoque > 0;
+  const canAdd = !!variacao && variacao.ativo && (produto.todasCores || variacao.estoque > 0);
 
   return (
     <Shell
@@ -291,58 +376,67 @@ export default function ProdutoPage({ params }: { params: Promise<{ id: string }
             </span>
           </div>
 
-          {produto.cores.length > 0 && (
-            <>
-              <Label>
-                Cor:{" "}
-                <span style={{ fontWeight: 400, fontFamily: "var(--font-manrope), sans-serif", color: "#999999" }}>
-                  {selectedCor}
-                </span>
-              </Label>
-              <div style={{ display: "flex", gap: 12, marginBottom: 20, flexWrap: "wrap" }}>
-                {produto.cores.map((c, i) => (
-                  <motion.button
-                    key={c.nome}
-                    onClick={() => setColorIdx(i)}
-                    whileHover={{ scale: 1.08 }}
-                    whileTap={{ scale: 0.94 }}
-                    transition={{ duration: 0.2, ease: EASE_OUT }}
-                    style={{
-                      display: "flex",
-                      flexDirection: "column",
-                      alignItems: "center",
-                      gap: 6,
-                      cursor: "pointer",
-                      background: "transparent",
-                      border: "none",
-                      padding: 0,
-                    }}
-                  >
-                    <span
+          {produto.todasCores ? (
+            <PaletaSeletor
+              paleta={paleta}
+              familias={familias}
+              corSelecionadaId={corPaletaId}
+              onSelecionar={setCorPaletaId}
+            />
+          ) : (
+            produto.cores.length > 0 && (
+              <>
+                <Label>
+                  Cor:{" "}
+                  <span style={{ fontWeight: 400, fontFamily: "var(--font-manrope), sans-serif", color: "#999999" }}>
+                    {selectedCor}
+                  </span>
+                </Label>
+                <div style={{ display: "flex", gap: 12, marginBottom: 20, flexWrap: "wrap" }}>
+                  {produto.cores.map((c, i) => (
+                    <motion.button
+                      key={c.nome}
+                      onClick={() => setColorIdx(i)}
+                      whileHover={{ scale: 1.08 }}
+                      whileTap={{ scale: 0.94 }}
+                      transition={{ duration: 0.2, ease: EASE_OUT }}
                       style={{
-                        width: 40,
-                        height: 40,
-                        borderRadius: "50%",
-                        background: c.hex,
-                        border: i === colorIdx ? "3px solid #00B20B" : "2px solid #E5E5E5",
-                        transition: "all 200ms var(--ease-out)",
-                        display: "block",
-                      }}
-                    />
-                    <span
-                      style={{
-                        fontFamily: "var(--font-manrope), sans-serif",
-                        fontSize: 11,
-                        color: i === colorIdx ? "#012418" : "#999999",
-                        transition: "color 200ms var(--ease-out)",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        gap: 6,
+                        cursor: "pointer",
+                        background: "transparent",
+                        border: "none",
+                        padding: 0,
                       }}
                     >
-                      {c.nome}
-                    </span>
-                  </motion.button>
-                ))}
-              </div>
-            </>
+                      <span
+                        style={{
+                          width: 40,
+                          height: 40,
+                          borderRadius: "50%",
+                          background: c.hex,
+                          border: i === colorIdx ? "3px solid #00B20B" : "2px solid #E5E5E5",
+                          transition: "all 200ms var(--ease-out)",
+                          display: "block",
+                        }}
+                      />
+                      <span
+                        style={{
+                          fontFamily: "var(--font-manrope), sans-serif",
+                          fontSize: 11,
+                          color: i === colorIdx ? "#012418" : "#999999",
+                          transition: "color 200ms var(--ease-out)",
+                        }}
+                      >
+                        {c.nome}
+                      </span>
+                    </motion.button>
+                  ))}
+                </div>
+              </>
+            )
           )}
 
           {produto.volumes.length > 0 && (
@@ -381,7 +475,7 @@ export default function ProdutoPage({ params }: { params: Promise<{ id: string }
               Esta combinação não está disponível no momento.
             </p>
           )}
-          {variacao && variacao.ativo && variacao.estoque === 0 && (
+          {variacao && variacao.ativo && !produto.todasCores && variacao.estoque === 0 && (
             <p style={{ margin: "0 0 16px", fontFamily: "var(--font-manrope), sans-serif", fontSize: 12, color: "#E63946" }}>
               Sem estoque para esta combinação.
             </p>
@@ -453,7 +547,7 @@ export default function ProdutoPage({ params }: { params: Promise<{ id: string }
                 textWrap: "pretty",
               }}
               dangerouslySetInnerHTML={{
-                __html: DOMPurify.sanitize(produto.descricao, {
+                __html: DOMPurify.sanitize(descricaoParaHtml(produto.descricao), {
                   ALLOWED_TAGS: ["h3", "p", "b", "i", "u", "ul", "li", "div", "br", "strong", "em"],
                   ALLOWED_ATTR: [],
                 }),
@@ -543,6 +637,251 @@ function Label({ children }: { children: React.ReactNode }) {
       }}
     >
       {children}
+    </div>
+  );
+}
+
+/**
+ * Seletor de cor para produtos com `todasCores` (catálogo Suvinil completo).
+ * Preview grande da cor ativa + abas por família + busca, para navegar 130+ cores sem rolagem infinita.
+ */
+function PaletaSeletor({
+  paleta,
+  familias,
+  corSelecionadaId,
+  onSelecionar,
+}: {
+  paleta: CorTinta[];
+  familias: { familia: string; cores: CorTinta[] }[];
+  corSelecionadaId: string | null;
+  onSelecionar: (id: string) => void;
+}) {
+  const [familiaAtiva, setFamiliaAtiva] = useState<string | null>(null);
+  const [busca, setBusca] = useState("");
+
+  const corAtiva = paleta.find((c) => c.id === corSelecionadaId);
+
+  useEffect(() => {
+    if (familias.length > 0 && familiaAtiva === null) {
+      setFamiliaAtiva(corAtiva?.familia ?? familias[0].familia);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [familias]);
+
+  const termo = busca.trim().toLowerCase();
+  const buscando = termo.length > 0;
+
+  const resultadosBusca = useMemo(() => {
+    if (!buscando) return [];
+    return paleta.filter(
+      (c) => c.nome.toLowerCase().includes(termo) || c.codigo.toLowerCase().includes(termo)
+    );
+  }, [paleta, termo, buscando]);
+
+  const grupoAtivo = familias.find((f) => f.familia === familiaAtiva);
+  const coresExibidas = buscando ? resultadosBusca : (grupoAtivo?.cores ?? []);
+
+  if (paleta.length === 0) {
+    return (
+      <>
+        <Label>Cor</Label>
+        <p style={{ margin: "0 0 20px", fontFamily: "var(--font-manrope), sans-serif", fontSize: 13, color: "#999999" }}>
+          Carregando paleta de cores...
+        </p>
+      </>
+    );
+  }
+
+  return (
+    <div style={{ marginBottom: 20 }}>
+      <Label>Cor</Label>
+
+      {/* Preview grande da cor ativa */}
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 14,
+          padding: 14,
+          background: "#F5F5F5",
+          borderRadius: 12,
+          marginBottom: 14,
+        }}
+      >
+        <motion.div
+          key={corAtiva?.id ?? "none"}
+          initial={{ scale: 0.85, opacity: 0 }}
+          animate={{ scale: 1, opacity: 1 }}
+          transition={{ duration: 0.2, ease: EASE_OUT }}
+          style={{
+            width: 56,
+            height: 56,
+            borderRadius: 10,
+            background: corAtiva?.hex ?? "#E5E5E5",
+            border: "1px solid rgba(0,0,0,.08)",
+            boxShadow: "0 1px 4px rgba(0,0,0,.1)",
+            flex: "none",
+          }}
+        />
+        <div style={{ minWidth: 0 }}>
+          <div
+            style={{
+              fontFamily: "var(--font-archivo), sans-serif",
+              fontWeight: 700,
+              fontSize: 16,
+              color: "#012418",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              whiteSpace: "nowrap",
+            }}
+          >
+            {corAtiva?.nome ?? "Selecione uma cor"}
+          </div>
+          {corAtiva && (
+            <div
+              style={{
+                fontFamily: "var(--font-manrope), sans-serif",
+                fontWeight: 600,
+                fontSize: 12,
+                color: "#999999",
+                letterSpacing: "0.02em",
+              }}
+            >
+              Código {corAtiva.codigo}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Busca */}
+      <div style={{ position: "relative", marginBottom: 12 }}>
+        <input
+          value={busca}
+          onChange={(e) => setBusca(e.target.value)}
+          placeholder="Buscar cor por nome ou código..."
+          aria-label="Buscar cor por nome ou código"
+          style={{
+            width: "100%",
+            height: 40,
+            boxSizing: "border-box",
+            padding: "0 14px",
+            border: "2px solid #E5E5E5",
+            borderRadius: 8,
+            fontFamily: "var(--font-manrope), sans-serif",
+            fontSize: 13,
+            color: "#012418",
+            outline: "none",
+            background: "#FFFFFF",
+            transition: "border-color 200ms var(--ease-out)",
+          }}
+          onFocus={(e) => (e.currentTarget.style.borderColor = "#00B20B")}
+          onBlur={(e) => (e.currentTarget.style.borderColor = "#E5E5E5")}
+        />
+      </div>
+
+      {/* Abas por família — ocultas durante a busca */}
+      {!buscando && (
+        <div
+          style={{
+            display: "flex",
+            gap: 6,
+            overflowX: "auto",
+            paddingBottom: 8,
+            marginBottom: 12,
+          }}
+        >
+          {familias.map((grupo) => {
+            const ativa = grupo.familia === familiaAtiva;
+            return (
+              <button
+                key={grupo.familia}
+                onClick={() => setFamiliaAtiva(grupo.familia)}
+                aria-pressed={ativa}
+                style={{
+                  flex: "none",
+                  padding: "8px 14px",
+                  borderRadius: 20,
+                  border: `1.5px solid ${ativa ? "#00B20B" : "#E5E5E5"}`,
+                  background: ativa ? "#00B20B" : "#FFFFFF",
+                  color: ativa ? "#FFFFFF" : "#666666",
+                  fontFamily: "var(--font-manrope), sans-serif",
+                  fontWeight: 600,
+                  fontSize: 12,
+                  cursor: "pointer",
+                  whiteSpace: "nowrap",
+                  transition: "all 200ms var(--ease-out)",
+                }}
+              >
+                {grupo.familia}
+              </button>
+            );
+          })}
+        </div>
+      )}
+
+      {/* Grade de swatches */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={buscando ? `busca:${termo}` : familiaAtiva}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.15, ease: EASE_OUT }}
+        >
+          {coresExibidas.length === 0 ? (
+            <p
+              style={{
+                margin: 0,
+                padding: "20px 0",
+                textAlign: "center",
+                fontFamily: "var(--font-manrope), sans-serif",
+                fontSize: 13,
+                color: "#999999",
+              }}
+            >
+              Nenhuma cor encontrada para &quot;{busca}&quot;.
+            </p>
+          ) : (
+            <div
+              style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fill, minmax(40px, 1fr))",
+                gap: 8,
+                maxHeight: 216,
+                overflowY: "auto",
+                padding: 4,
+              }}
+            >
+              {coresExibidas.map((c) => {
+                const selecionada = c.id === corSelecionadaId;
+                return (
+                  <motion.button
+                    key={c.id}
+                    title={`${c.nome} — ${c.codigo}`}
+                    aria-label={`${c.nome} — ${c.codigo}`}
+                    aria-pressed={selecionada}
+                    onClick={() => onSelecionar(c.id)}
+                    whileHover={{ scale: 1.1 }}
+                    whileTap={{ scale: 0.92 }}
+                    transition={{ duration: 0.15, ease: EASE_OUT }}
+                    style={{
+                      width: 32,
+                      height: 32,
+                      borderRadius: "50%",
+                      background: c.hex,
+                      border: selecionada ? "3px solid #00B20B" : "2px solid #E5E5E5",
+                      boxShadow: selecionada ? "0 0 0 2px rgba(0,178,11,.2)" : "none",
+                      cursor: "pointer",
+                      padding: 0,
+                      transition: "border-color 200ms var(--ease-out), box-shadow 200ms var(--ease-out)",
+                    }}
+                  />
+                );
+              })}
+            </div>
+          )}
+        </motion.div>
+      </AnimatePresence>
     </div>
   );
 }

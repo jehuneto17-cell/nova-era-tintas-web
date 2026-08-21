@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { useState } from "react";
 import { Placeholder } from "./Placeholder";
@@ -28,12 +29,17 @@ export type Product = {
  */
 export function ProductCard({ produto, index = 0 }: { produto: Produto; index?: number }) {
   const { addItem } = useStore();
+  const router = useRouter();
   const [added, setAdded] = useState(false);
   const product = toProductCard(produto);
 
   function add(e: React.MouseEvent) {
     e.preventDefault();
     e.stopPropagation();
+    if (produto.todasCores) {
+      router.push(`/produto/${product.id}`);
+      return;
+    }
     const line = toCartLine(produto);
     if (!line) return;
     addItem(line);
@@ -164,7 +170,13 @@ export function ProductCard({ produto, index = 0 }: { produto: Produto; index?: 
             transition: "background 200ms var(--ease-out)",
           }}
         >
-          {product.hasStock === false ? "Sem Estoque" : added ? "Adicionado!" : "Adicionar ao Carrinho"}
+          {product.hasStock === false
+            ? "Sem Estoque"
+            : added
+              ? "Adicionado!"
+              : produto.todasCores
+                ? "Escolher Cor"
+                : "Adicionar ao Carrinho"}
         </motion.button>
       </div>
     </motion.div>

@@ -1,11 +1,10 @@
 import type { Product } from "@/components/ProductCard";
-import { capaUrl, precoMinimo, variacoesAtivas } from "./produtos";
+import { capaUrl, precoMinimo, temEstoque } from "./produtos";
 import type { CartLine } from "./store";
 import type { Produto, ProdutoVariacao } from "./types";
 
 /** Converte um Produto do Firestore para o formato de exibição usado pelo ProductCard. */
 export function toProductCard(produto: Produto): Product {
-  const ativas = variacoesAtivas(produto);
   const menorPreco = precoMinimo(produto);
   return {
     id: produto.id,
@@ -16,7 +15,7 @@ export function toProductCard(produto: Produto): Product {
     promo: produto.descontoPct > 0 ? `OFF ${produto.descontoPct}%` : null,
     shot: produto.nome.split(" ")[0],
     shotUrl: capaUrl(produto),
-    hasStock: ativas.some((v) => v.estoque > 0),
+    hasStock: temEstoque(produto),
   };
 }
 
@@ -31,8 +30,12 @@ export function variacaoPadrao(
   return entradas.reduce((menor, atual) => (atual[1].preco < menor[1].preco ? atual : menor));
 }
 
-/** Monta a linha de carrinho para um produto usando sua variação padrão (menor preço com estoque). */
+/**
+ * Monta a linha de carrinho para um produto usando sua variação padrão (menor preço com estoque).
+ * Retorna `null` também quando `todasCores` — o cliente precisa escolher a cor na página do produto.
+ */
 export function toCartLine(produto: Produto): Omit<CartLine, "qty"> | null {
+  if (produto.todasCores) return null;
   const padrao = variacaoPadrao(produto);
   if (!padrao) return null;
   const [chave, variacao] = padrao;

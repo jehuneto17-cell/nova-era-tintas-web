@@ -8,7 +8,7 @@ import { Placeholder } from "@/components/Placeholder";
 import { CategoryIcon } from "@/components/CategoryIcon";
 import { SectionTitle } from "@/components/ui";
 import { useBranding, useCategoriasAtivas, useProdutos } from "@/lib/hooks";
-import { estoqueTotal, precoMinimo } from "@/lib/produtos";
+import { contarPorCategoria, precoMinimo, temEstoque } from "@/lib/produtos";
 import type { Categoria } from "@/lib/types";
 
 /** Screen 1 — Home Web. */
@@ -16,8 +16,9 @@ export default function HomePage() {
   const { produtos, loading } = useProdutos();
   const { categorias } = useCategoriasAtivas();
   const branding = useBranding();
+  const qtdPorCategoria = contarPorCategoria(produtos);
 
-  const emEstoque = produtos.filter((p) => estoqueTotal(p) > 0);
+  const emEstoque = produtos.filter(temEstoque);
   const bestsellers = [...emEstoque].sort((a, b) => precoMinimo(b) - precoMinimo(a)).slice(0, 4);
   const promos = produtos.filter((p) => p.descontoPct > 0).slice(0, 8);
 
@@ -58,7 +59,7 @@ export default function HomePage() {
           <SectionTitle>Categorias em Destaque</SectionTitle>
           <div className="grid-cat-4">
             {categorias.slice(0, 4).map((c, i) => (
-              <CategoryTile key={c.id} category={c} index={i} />
+              <CategoryTile key={c.id} category={c} index={i} qtd={qtdPorCategoria.get(c.id) ?? 0} />
             ))}
           </div>
         </section>
@@ -113,7 +114,7 @@ export default function HomePage() {
   );
 }
 
-function CategoryTile({ category, index }: { category: Categoria; index: number }) {
+function CategoryTile({ category, index, qtd }: { category: Categoria; index: number; qtd: number }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 12 }}
@@ -172,7 +173,7 @@ function CategoryTile({ category, index }: { category: Categoria; index: number 
                 color: "rgba(255,255,255,.85)",
               }}
             >
-              {category.qtdProdutos} produtos
+              {qtd} produtos
             </div>
           </div>
         </div>

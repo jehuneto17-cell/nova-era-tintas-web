@@ -22,6 +22,7 @@ function toProduto(id: string, data: Record<string, unknown>): Produto {
     descontoPct: (data.descontoPct as number) ?? 0,
     ativo: (data.ativo as boolean) ?? false,
     cores: (data.cores as Produto["cores"]) ?? [],
+    todasCores: (data.todasCores as boolean) ?? false,
     volumes: (data.volumes as string[]) ?? [],
     variacoes: (data.variacoes as Produto["variacoes"]) ?? {},
     specs: (data.specs as Produto["specs"]) ?? [],
@@ -50,8 +51,25 @@ export function estoqueTotal(produto: Produto): number {
   return variacoesAtivas(produto).reduce((sum, v) => sum + v.estoque, 0);
 }
 
+/**
+ * Se o produto tem disponibilidade para venda. Produtos `todasCores` (tintometria, sem
+ * controle de estoque por cor) contam como disponíveis enquanto tiverem variação ativa,
+ * independente do número em `estoque`.
+ */
+export function temEstoque(produto: Produto): boolean {
+  if (produto.todasCores) return variacoesAtivas(produto).length > 0;
+  return estoqueTotal(produto) > 0;
+}
+
 export function capaUrl(produto: Produto): string | undefined {
   return produto.fotos[0]?.url;
+}
+
+/** Conta produtos ativos por categoria, chaveado por `categoriaId`. */
+export function contarPorCategoria(produtos: Produto[]): Map<string, number> {
+  const counts = new Map<string, number>();
+  produtos.forEach((p) => counts.set(p.categoriaId, (counts.get(p.categoriaId) ?? 0) + 1));
+  return counts;
 }
 
 /** Assina a lista de produtos ativos em tempo real. */
