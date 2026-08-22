@@ -29,10 +29,14 @@ function Resultados() {
 
   const results = useMemo(() => {
     const q = query.trim().toLowerCase();
+    const buscaInterior = q.includes("interior");
+    const buscaExterior = q.includes("exterior");
     let list = q
-      ? produtos.filter(
-          (p) => p.nome.toLowerCase().includes(q) || p.categoria.toLowerCase().includes(q),
-        )
+      ? produtos.filter((p) => {
+          if (buscaInterior && (p.ambientes ?? []).includes("interior")) return true;
+          if (buscaExterior && (p.ambientes ?? []).includes("exterior")) return true;
+          return p.nome.toLowerCase().includes(q) || p.categoria.toLowerCase().includes(q);
+        })
       : [];
     list = [...list];
     if (sort === "Menor Preço") list.sort((a, b) => precoMinimo(a) - precoMinimo(b));

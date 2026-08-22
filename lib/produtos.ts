@@ -23,6 +23,7 @@ function toProduto(id: string, data: Record<string, unknown>): Produto {
     ativo: (data.ativo as boolean) ?? false,
     cores: (data.cores as Produto["cores"]) ?? [],
     todasCores: (data.todasCores as boolean) ?? false,
+    ambientes: (data.ambientes as Produto["ambientes"]) ?? [],
     volumes: (data.volumes as string[]) ?? [],
     variacoes: (data.variacoes as Produto["variacoes"]) ?? {},
     specs: (data.specs as Produto["specs"]) ?? [],

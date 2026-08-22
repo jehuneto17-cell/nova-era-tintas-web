@@ -41,6 +41,7 @@ export interface Produto {
   ativo: boolean;
   cores: ProdutoCor[];
   todasCores?: boolean;
+  ambientes?: ("interior" | "exterior")[];
   volumes: string[];
   variacoes: Record<string, ProdutoVariacao>;
   specs: ProdutoSpec[];

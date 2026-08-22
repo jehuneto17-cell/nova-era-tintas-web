@@ -347,6 +347,25 @@ export default function ProdutoPage({ params }: { params: Promise<{ id: string }
           </h1>
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
             <Stars size={16} letterSpacing={2} />
+            {produto.ambientes && produto.ambientes.length > 0 && (
+              <span
+                style={{
+                  padding: "3px 8px",
+                  borderRadius: 7,
+                  background: "var(--green-tint)",
+                  color: "#00B20B",
+                  fontFamily: "var(--font-archivo), sans-serif",
+                  fontWeight: 700,
+                  fontSize: 11,
+                }}
+              >
+                {produto.ambientes.length === 2
+                  ? "Interior e Exterior"
+                  : produto.ambientes[0] === "interior"
+                    ? "Interior"
+                    : "Exterior"}
+              </span>
+            )}
           </div>
 
           <div
