@@ -14,6 +14,7 @@ export type Product = {
   id: string;
   title: string;
   price: string;
+  oldPrice?: string | null;
   reviews: number;
   badge?: string | null;
   promo?: string | null;
@@ -138,15 +139,34 @@ export function ProductCard({ produto, index = 0 }: { produto: Produto; index?: 
             ({product.reviews} avaliações)
           </span>
         </div>
-        <div
-          style={{
-            fontFamily: "var(--font-archivo), sans-serif",
-            fontWeight: 800,
-            fontSize: 16,
-            color: "#00B20B",
-          }}
-        >
-          R$ {product.price}
+        <div style={{ display: "flex", flexDirection: "column", gap: 2 }}>
+          {product.oldPrice && (
+            <span
+              style={{
+                fontFamily: "var(--font-manrope), sans-serif",
+                fontSize: 11,
+                color: "#999999",
+                textDecoration: "line-through",
+              }}
+            >
+              R$ {product.oldPrice}
+            </span>
+          )}
+          <div
+            style={{
+              fontFamily: "var(--font-archivo), sans-serif",
+              fontWeight: 800,
+              fontSize: 16,
+              color: "#00B20B",
+            }}
+          >
+            R$ {product.price}
+          </div>
+          {product.oldPrice && (
+            <span style={{ fontFamily: "var(--font-manrope), sans-serif", fontSize: 11, color: "#666666" }}>
+              à vista no PIX
+            </span>
+          )}
         </div>
         <motion.button
           onClick={add}

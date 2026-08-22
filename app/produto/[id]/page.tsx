@@ -9,9 +9,9 @@ import { ProductCard } from "@/components/ProductCard";
 import { Placeholder } from "@/components/Placeholder";
 import { Heart, Icon } from "@/components/Icon";
 import { PrimaryButton, QtyStepper, SecondaryButton, SectionTitle, Stars, EASE_OUT } from "@/components/ui";
-import { getProduto, getProdutosPorCategoria, precoMaximo, precoMinimo } from "@/lib/produtos";
+import { getProduto, getProdutosPorCategoria, precoAVista, precoMaximo, precoMinimo } from "@/lib/produtos";
 import { agruparPorFamilia, CHAVE_TODAS_CORES, getPaletaCores } from "@/lib/cores";
-import { useStore } from "@/lib/store";
+import { brl, useStore } from "@/lib/store";
 import type { CorTinta, Produto } from "@/lib/types";
 
 /**
@@ -157,14 +157,15 @@ export default function ProdutoPage({ params }: { params: Promise<{ id: string }
 
   function add() {
     if (!produto || !variacao || !variacaoChave) return;
+    const temDesconto = produto.descontoPct > 0;
     addItem(
       {
         produtoId: produto.id,
         variacao: variacaoChave,
         title: produto.nome,
         specs: `Cor: ${selectedCor} | Volume: ${selectedVolume}`,
-        price: variacao.preco,
-        oldPrice: null,
+        price: temDesconto ? precoAVista(produto, variacao.preco) : variacao.preco,
+        oldPrice: temDesconto ? variacao.preco : null,
         shot: produto.nome.split(" ")[0],
         shotUrl: shots[0],
       },
@@ -355,25 +356,43 @@ export default function ProdutoPage({ params }: { params: Promise<{ id: string }
               borderRadius: 12,
               marginBottom: 24,
               display: "flex",
-              alignItems: "baseline",
-              gap: 12,
-              flexWrap: "wrap",
+              flexDirection: "column",
+              gap: 4,
             }}
           >
-            <span
-              style={{
-                fontFamily: "var(--font-archivo), sans-serif",
-                fontWeight: 800,
-                fontSize: 32,
-                color: "#00B20B",
-              }}
-            >
-              {variacao
-                ? `R$ ${variacao.preco.toFixed(2).replace(".", ",")}`
-                : precoMin === precoMax
-                  ? `R$ ${precoMin.toFixed(2).replace(".", ",")}`
-                  : `R$ ${precoMin.toFixed(2).replace(".", ",")} - R$ ${precoMax.toFixed(2).replace(".", ",")}`}
-            </span>
+            {produto.descontoPct > 0 && variacao && (
+              <span
+                style={{
+                  fontFamily: "var(--font-manrope), sans-serif",
+                  fontSize: 14,
+                  color: "#999999",
+                  textDecoration: "line-through",
+                }}
+              >
+                {brl(variacao.preco)}
+              </span>
+            )}
+            <div style={{ display: "flex", alignItems: "baseline", gap: 12, flexWrap: "wrap" }}>
+              <span
+                style={{
+                  fontFamily: "var(--font-archivo), sans-serif",
+                  fontWeight: 800,
+                  fontSize: 32,
+                  color: "#00B20B",
+                }}
+              >
+                {variacao
+                  ? brl(produto.descontoPct > 0 ? precoAVista(produto, variacao.preco) : variacao.preco)
+                  : precoMin === precoMax
+                    ? `R$ ${precoMin.toFixed(2).replace(".", ",")}`
+                    : `R$ ${precoMin.toFixed(2).replace(".", ",")} - R$ ${precoMax.toFixed(2).replace(".", ",")}`}
+              </span>
+            </div>
+            {produto.descontoPct > 0 && variacao && (
+              <span style={{ fontFamily: "var(--font-manrope), sans-serif", fontSize: 12, color: "#666666" }}>
+                à vista no PIX
+              </span>
+            )}
           </div>
 
           {produto.todasCores ? (

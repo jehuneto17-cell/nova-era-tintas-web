@@ -1,18 +1,21 @@
 import type { Product } from "@/components/ProductCard";
-import { capaUrl, precoMinimo, temEstoque } from "./produtos";
+import { capaUrl, precoAVista, precoMinimo, temEstoque } from "./produtos";
 import type { CartLine } from "./store";
 import type { Produto, ProdutoVariacao } from "./types";
 
 /** Converte um Produto do Firestore para o formato de exibição usado pelo ProductCard. */
 export function toProductCard(produto: Produto): Product {
   const menorPreco = precoMinimo(produto);
+  const aVista = precoAVista(produto, menorPreco);
+  const temDesconto = produto.descontoPct > 0;
   return {
     id: produto.id,
     title: produto.nome,
-    price: menorPreco.toFixed(2).replace(".", ","),
+    price: (temDesconto ? aVista : menorPreco).toFixed(2).replace(".", ","),
+    oldPrice: temDesconto ? menorPreco.toFixed(2).replace(".", ",") : null,
     reviews: 0,
     badge: null,
-    promo: produto.descontoPct > 0 ? `OFF ${produto.descontoPct}%` : null,
+    promo: temDesconto ? `OFF ${produto.descontoPct}%` : null,
     shot: produto.nome.split(" ")[0],
     shotUrl: capaUrl(produto),
     hasStock: temEstoque(produto),
@@ -39,13 +42,14 @@ export function toCartLine(produto: Produto): Omit<CartLine, "qty"> | null {
   const padrao = variacaoPadrao(produto);
   if (!padrao) return null;
   const [chave, variacao] = padrao;
+  const temDesconto = produto.descontoPct > 0;
   return {
     produtoId: produto.id,
     variacao: chave,
     title: produto.nome,
     specs: `Cor: ${variacao.cor} | Volume: ${variacao.volume}`,
-    price: variacao.preco,
-    oldPrice: null,
+    price: temDesconto ? precoAVista(produto, variacao.preco) : variacao.preco,
+    oldPrice: temDesconto ? variacao.preco : null,
     shot: produto.nome.split(" ")[0],
     shotUrl: capaUrl(produto),
   };

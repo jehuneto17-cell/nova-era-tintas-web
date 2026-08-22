@@ -47,6 +47,12 @@ export function precoMaximo(produto: Produto): number {
   return Math.max(...ativas.map((v) => v.preco));
 }
 
+/** Preço à vista (pagamento via PIX) de uma variação, aplicando o desconto do produto. */
+export function precoAVista(produto: Produto, preco: number): number {
+  if (produto.descontoPct <= 0) return preco;
+  return preco * (1 - produto.descontoPct / 100);
+}
+
 export function estoqueTotal(produto: Produto): number {
   return variacoesAtivas(produto).reduce((sum, v) => sum + v.estoque, 0);
 }
