@@ -15,10 +15,13 @@ export interface CorTinta {
   id: string;
   codigo: string;
   nome: string;
-  familia: string;
+  /** Só existe na paleta Suvinil (`cores`). A paleta Coral (`cores_coral`) não tem família. */
+  familia?: string;
   hex: string;
   ativa: boolean;
 }
+
+export type PaletaTodasCores = "suvinil" | "coral";
 
 export interface ProdutoSpec {
   nome: string;
@@ -41,6 +44,8 @@ export interface Produto {
   ativo: boolean;
   cores: ProdutoCor[];
   todasCores?: boolean;
+  /** Só importa quando `todasCores` é true. Ausente = "suvinil" (produtos antigos). */
+  paletaTodasCores?: PaletaTodasCores;
   ambientes?: ("interior" | "exterior")[];
   volumes: string[];
   variacoes: Record<string, ProdutoVariacao>;

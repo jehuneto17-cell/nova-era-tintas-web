@@ -122,7 +122,7 @@ export default function ProdutoPage({ params }: { params: Promise<{ id: string }
           if (active) setRelated(list.filter((r) => r.id !== p.id).slice(0, 4));
         });
         if (p.todasCores) {
-          getPaletaCores().then((cores) => {
+          getPaletaCores(p.paletaTodasCores).then((cores) => {
             if (!active) return;
             setPaleta(cores);
             setCorPaletaId(cores[0]?.id ?? null);
@@ -817,8 +817,8 @@ function PaletaSeletor({
         />
       </div>
 
-      {/* Abas por família — ocultas durante a busca */}
-      {!buscando && (
+      {/* Abas por família — ocultas durante a busca ou quando a paleta não tem famílias (ex: Coral) */}
+      {!buscando && familias.length > 1 && (
         <div
           style={{
             display: "flex",
