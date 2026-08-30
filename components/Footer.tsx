@@ -97,6 +97,33 @@ export function Footer() {
             ))}
           </div>
         ))}
+        <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
+          <div
+            style={{
+              fontFamily: "var(--font-archivo), sans-serif",
+              fontWeight: 700,
+              fontSize: 14,
+              color: "#FFFFFF",
+            }}
+          >
+            Endereço
+          </div>
+          <a
+            href="https://www.google.com/maps/place/Nova+Era+Tintas/@-20.7462876,-46.7563641,17z/data=!3m1!4b1!4m6!3m5!1s0x94b6df1b0eac9e03:0x2c541f24ce949d26!8m2!3d-20.7462876!4d-46.7563641!16s%2Fg%2F11hz5vdqjx?entry=ttu&g_ep=EgoyMDI2MDgyNi4wIKXMDSoASAFQAw%3D%3D"
+            target="_blank"
+            rel="noreferrer"
+            style={{ fontSize: 13, color: "rgba(255,255,255,.7)", lineHeight: 1.6 }}
+          >
+            R. Dom Inácio J. Dalmonte
+            <br />
+            Jardim Paineiras, Itaú de Minas - MG
+            <br />
+            37975-000
+          </a>
+          <a href="https://wa.me/5531972671950" target="_blank" rel="noreferrer" style={{ fontSize: 13, color: "rgba(255,255,255,.7)" }}>
+            WhatsApp: (31) 97267-1950
+          </a>
+        </div>
         {(email || whatsappLoja || social.length > 0) && (
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             <div

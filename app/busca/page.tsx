@@ -72,7 +72,7 @@ export default function BuscaPage() {
           <Icon
             name="search"
             size={18}
-            color="#00B20B"
+            color="#2E9222"
             style={{ position: "absolute", left: 20, top: 19, pointerEvents: "none", zIndex: 2 }}
           />
           <input
@@ -96,8 +96,8 @@ export default function BuscaPage() {
               boxSizing: "border-box",
               padding: "14px 44px 14px 48px",
               borderRadius: showSuggestions && suggestions.length > 0 ? "28px 28px 0 0" : 28,
-              border: `2px solid ${focused ? "#00B20B" : "#E5E5E5"}`,
-              boxShadow: focused ? "0 2px 12px rgba(0,178,11,.15)" : "none",
+              border: `2px solid ${focused ? "#2E9222" : "#E5E5E5"}`,
+              boxShadow: focused ? "0 2px 12px rgba(46,146,34,.15)" : "none",
               outline: "none",
               fontFamily: "var(--font-manrope), sans-serif",
               fontWeight: 600,
@@ -282,7 +282,7 @@ function SuggestionRow({
         transition: "background 150ms var(--ease-out)",
       }}
     >
-      <Icon name="search" size={16} color="#00B20B" />
+      <Icon name="search" size={16} color="#2E9222" />
       <span
         style={{
           flex: 1,
@@ -405,18 +405,18 @@ function TrendingChip({
         gap: 8,
         alignItems: "center",
         background: hover ? "#E8F5E9" : "#F3FBF4",
-        border: "1px solid #00B20B",
+        border: "1px solid #2E9222",
         padding: "8px 12px",
         borderRadius: 6,
         fontFamily: "var(--font-manrope), sans-serif",
         fontWeight: 600,
         fontSize: 12,
-        color: "#00B20B",
+        color: "#2E9222",
         cursor: "pointer",
         transition: "background 200ms var(--ease-out)",
       }}
     >
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#00B20B" strokeWidth="2">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#2E9222" strokeWidth="2">
         <polyline points="3 17 9 11 13 15 21 6" />
         <polyline points="15 6 21 6 21 12" />
       </svg>
@@ -440,7 +440,7 @@ function ClearButton({ onClick, children }: { onClick: () => void; children: Rea
         fontFamily: "var(--font-manrope), sans-serif",
         fontWeight: 500,
         fontSize: 12,
-        color: hover ? "#00B20B" : "#0088B7",
+        color: hover ? "#2E9222" : "#0088B7",
         transition: "color 200ms var(--ease-out)",
       }}
     >

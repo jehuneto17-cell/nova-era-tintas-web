@@ -39,7 +39,7 @@ export default function TrabalheConoscoPage() {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              background: "#00B20B",
+              background: "#2E9222",
               color: "#FFFFFF",
               borderRadius: 8,
               fontFamily: "var(--font-archivo), sans-serif",

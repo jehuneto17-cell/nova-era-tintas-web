@@ -237,8 +237,8 @@ export default function EditarPerfilPage() {
                 height: 100,
                 margin: "0 auto 16px",
                 borderRadius: "50%",
-                border: "3px solid #00B20B",
-                background: "#00B20B",
+                border: "3px solid #2E9222",
+                background: "#2E9222",
                 display: "grid",
                 placeItems: "center",
                 fontFamily: "var(--font-archivo), sans-serif",
@@ -333,13 +333,13 @@ export default function EditarPerfilPage() {
               </div>
               <motion.button
                 onClick={buscarCep}
-                whileHover={{ boxShadow: "0 2px 8px rgba(0,178,11,.2)" }}
+                whileHover={{ boxShadow: "0 2px 8px rgba(46,146,34,.2)" }}
                 whileTap={{ scale: 0.97 }}
                 transition={{ duration: 0.2, ease: EASE_OUT }}
                 style={{
                   height: 44,
                   padding: "0 20px",
-                  background: "#00B20B",
+                  background: "#2E9222",
                   color: "#FFFFFF",
                   border: "none",
                   borderRadius: 8,
@@ -410,13 +410,13 @@ export default function EditarPerfilPage() {
             <GhostButton onClick={cancel}>Cancelar</GhostButton>
             <motion.button
               onClick={save}
-              whileHover={{ y: -1, boxShadow: "0 2px 8px rgba(0,178,11,.2)" }}
+              whileHover={{ y: -1, boxShadow: "0 2px 8px rgba(46,146,34,.2)" }}
               whileTap={{ scale: 0.98 }}
               transition={{ duration: 0.2, ease: EASE_OUT }}
               style={{
                 height: 48,
                 padding: "12px 24px",
-                background: "#00B20B",
+                background: "#2E9222",
                 color: "#FFFFFF",
                 border: "none",
                 fontFamily: "var(--font-archivo), sans-serif",
@@ -530,7 +530,7 @@ const EditField = React.memo(({
   borderOverride?: string;
 }) => {
   const [focused, setFocused] = useState(false);
-  const border = borderOverride ?? (error ? "#E63946" : focused ? "#00B20B" : "#E5E5E5");
+  const border = borderOverride ?? (error ? "#E63946" : focused ? "#2E9222" : "#E5E5E5");
 
   return (
     <div>
@@ -567,7 +567,7 @@ const EditField = React.memo(({
           fontSize: 14,
           color: readOnly ? "#666666" : "#012418",
           outline: "none",
-          boxShadow: focused && !readOnly ? "0 0 0 3px rgba(0,178,11,.1)" : "none",
+          boxShadow: focused && !readOnly ? "0 0 0 3px rgba(46,146,34,.1)" : "none",
           transition: "all 200ms var(--ease-out)",
         }}
       />
@@ -643,7 +643,7 @@ const SelectField = React.memo(({
           height: 44,
           boxSizing: "border-box",
           padding: "0 16px",
-          border: `2px solid ${focused ? "#00B20B" : "#E5E5E5"}`,
+          border: `2px solid ${focused ? "#2E9222" : "#E5E5E5"}`,
           borderRadius: 8,
           fontFamily: "var(--font-manrope), sans-serif",
           fontSize: 14,
@@ -676,7 +676,7 @@ function BackButton({ onClick }: { onClick: () => void }) {
         border: "none",
         background: "transparent",
         cursor: "pointer",
-        color: hover ? "#00B20B" : "#012418",
+        color: hover ? "#2E9222" : "#012418",
         padding: 0,
         display: "grid",
         placeItems: "center",
@@ -712,8 +712,8 @@ function OutlineSmall({ onClick, children }: { onClick: () => void; children: Re
         height: 40,
         padding: "10px 20px",
         background: hover ? "#F3FBF4" : "#FFFFFF",
-        border: "2px solid #00B20B",
-        color: "#00B20B",
+        border: "2px solid #2E9222",
+        color: "#2E9222",
         fontFamily: "var(--font-manrope), sans-serif",
         fontWeight: 600,
         fontSize: 14,
@@ -801,7 +801,7 @@ function DialogButton({
         flex: 1,
         height: 44,
         background: variant === "danger" ? (hover ? "#CC2E36" : "#E63946") : "#FFFFFF",
-        border: variant === "danger" ? "none" : `2px solid ${hover ? "#00B20B" : "#E5E5E5"}`,
+        border: variant === "danger" ? "none" : `2px solid ${hover ? "#2E9222" : "#E5E5E5"}`,
         color: variant === "danger" ? "#FFFFFF" : "#012418",
         borderRadius: 8,
         fontFamily: "var(--font-archivo), sans-serif",

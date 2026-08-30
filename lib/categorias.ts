@@ -8,7 +8,7 @@ function toCategoria(id: string, data: Record<string, unknown>): Categoria {
     nome: (data.nome as string) ?? "",
     icone: (data.icone as string) ?? "package",
     fotoUrl: data.fotoUrl as string | undefined,
-    fundo: (data.fundo as string) ?? "#00B20B",
+    fundo: (data.fundo as string) ?? "#2E9222",
     ordem: (data.ordem as number) ?? 0,
     ativa: (data.ativa as boolean) ?? false,
     qtdProdutos: (data.qtdProdutos as number) ?? 0,

@@ -68,7 +68,7 @@ export default function CadastroPage() {
       : strength === 2
         ? ["#FFB703", "#FFB703", "#E5E5E5"]
         : strength === 3
-          ? ["#00B20B", "#00B20B", "#00B20B"]
+          ? ["#2E9222", "#2E9222", "#2E9222"]
           : ["#E5E5E5", "#E5E5E5", "#E5E5E5"];
 
   async function submit(e: React.FormEvent) {
@@ -257,7 +257,7 @@ export default function CadastroPage() {
             show={showConfirmar}
             onToggle={() => setShowConfirmar((v) => !v)}
             borderColor={
-              showConfirmarError ? "#E63946" : confirmar && confirmValid ? "#00B20B" : undefined
+              showConfirmarError ? "#E63946" : confirmar && confirmValid ? "#2E9222" : undefined
             }
           />
           <AnimatePresence>
@@ -291,8 +291,8 @@ export default function CadastroPage() {
             role="checkbox"
             aria-checked={terms}
             animate={{
-              background: terms ? "#00B20B" : "transparent",
-              borderColor: showTermsError ? "#E63946" : terms ? "#00B20B" : "#E5E5E5",
+              background: terms ? "#2E9222" : "transparent",
+              borderColor: showTermsError ? "#E63946" : terms ? "#2E9222" : "#E5E5E5",
             }}
             transition={{ duration: 0.18, ease: EASE_OUT }}
             style={{
@@ -368,13 +368,13 @@ export default function CadastroPage() {
 
         <motion.button
           type="submit"
-          whileHover={canSubmit ? { y: -1, boxShadow: "0 2px 8px rgba(0,178,11,.2)" } : undefined}
+          whileHover={canSubmit ? { y: -1, boxShadow: "0 2px 8px rgba(46,146,34,.2)" } : undefined}
           whileTap={canSubmit ? { scale: 0.98 } : undefined}
           transition={{ duration: 0.2, ease: EASE_OUT }}
           style={{
             width: "100%",
             height: 48,
-            background: "#00B20B",
+            background: "#2E9222",
             color: "#FFFFFF",
             border: "none",
             borderRadius: 8,
@@ -404,7 +404,7 @@ export default function CadastroPage() {
           }}
         >
           Já tem conta?{" "}
-          <Link href="/login" style={{ color: "#00B20B", fontWeight: 600 }}>
+          <Link href="/login" style={{ color: "#2E9222", fontWeight: 600 }}>
             Entrar
           </Link>
         </div>
@@ -462,7 +462,7 @@ function AuthField({
   error: string | null;
 }) {
   const [focused, setFocused] = useState(false);
-  const border = error ? "#E63946" : focused || (value && valid) ? "#00B20B" : "#E5E5E5";
+  const border = error ? "#E63946" : focused || (value && valid) ? "#2E9222" : "#E5E5E5";
 
   return (
     <div style={{ marginBottom: 20 }}>
@@ -491,7 +491,7 @@ function AuthField({
           color: "#012418",
           outline: "none",
           background: "#FFFFFF",
-          boxShadow: focused ? "0 0 0 3px rgba(0,178,11,.1)" : "none",
+          boxShadow: focused ? "0 0 0 3px rgba(46,146,34,.1)" : "none",
           transition: "all 200ms var(--ease-out)",
         }}
       />
@@ -536,7 +536,7 @@ function PasswordInput({
 }) {
   const [focused, setFocused] = useState(false);
   const [hover, setHover] = useState(false);
-  const border = borderColor ?? (focused ? "#00B20B" : "#E5E5E5");
+  const border = borderColor ?? (focused ? "#2E9222" : "#E5E5E5");
 
   return (
     <div style={{ position: "relative" }}>
@@ -563,7 +563,7 @@ function PasswordInput({
           color: "#012418",
           outline: "none",
           background: "#FFFFFF",
-          boxShadow: focused ? "0 0 0 3px rgba(0,178,11,.1)" : "none",
+          boxShadow: focused ? "0 0 0 3px rgba(46,146,34,.1)" : "none",
           transition: "all 200ms var(--ease-out)",
         }}
       />
@@ -583,7 +583,7 @@ function PasswordInput({
           background: "transparent",
           cursor: "pointer",
           padding: 0,
-          color: hover ? "#00B20B" : "#999999",
+          color: hover ? "#2E9222" : "#999999",
           display: "grid",
           placeItems: "center",
           transition: "color 200ms var(--ease-out)",

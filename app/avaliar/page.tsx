@@ -326,7 +326,7 @@ export default function AvaliarPage() {
                 }}
                 style={{
                   background: dragging ? "#E8F5E9" : "#F8F8F8",
-                  border: `2px dashed ${dragging ? "#00B20B" : "#E5E5E5"}`,
+                  border: `2px dashed ${dragging ? "#2E9222" : "#E5E5E5"}`,
                   borderRadius: 8,
                   padding: 20,
                   textAlign: "center",
@@ -346,7 +346,7 @@ export default function AvaliarPage() {
                   height="32"
                   viewBox="0 0 24 24"
                   fill="none"
-                  stroke={dragging ? "#00B20B" : "#999999"}
+                  stroke={dragging ? "#2E9222" : "#999999"}
                   strokeWidth="1.6"
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -433,13 +433,13 @@ export default function AvaliarPage() {
             <motion.button
               onClick={submit}
               disabled={!canSubmit}
-              whileHover={canSubmit ? { y: -1, boxShadow: "0 2px 8px rgba(0,178,11,.2)" } : undefined}
+              whileHover={canSubmit ? { y: -1, boxShadow: "0 2px 8px rgba(46,146,34,.2)" } : undefined}
               whileTap={canSubmit ? { scale: 0.98 } : undefined}
               transition={{ duration: 0.2, ease: EASE_OUT }}
               style={{
                 flex: 1,
                 height: 48,
-                background: rating > 0 ? "#00B20B" : "#BFBFBF",
+                background: rating > 0 ? "#2E9222" : "#BFBFBF",
                 color: "#FFFFFF",
                 border: "none",
                 borderRadius: 8,
@@ -474,7 +474,7 @@ export default function AvaliarPage() {
               position: "fixed",
               top: 20,
               right: 20,
-              background: toast.kind === "error" ? "#E63946" : "#00B20B",
+              background: toast.kind === "error" ? "#E63946" : "#2E9222",
               color: "#FFFFFF",
               padding: "14px 20px",
               borderRadius: 8,
@@ -574,14 +574,14 @@ function TextInput({
         height: 44,
         boxSizing: "border-box",
         padding: "12px 16px",
-        border: `2px solid ${focused ? "#00B20B" : "#E5E5E5"}`,
+        border: `2px solid ${focused ? "#2E9222" : "#E5E5E5"}`,
         borderRadius: 8,
         fontFamily: "var(--font-manrope), sans-serif",
         fontSize: 14,
         color: "#012418",
         outline: "none",
         background: "#FFFFFF",
-        boxShadow: focused ? "0 0 0 3px rgba(0,178,11,.1)" : "none",
+        boxShadow: focused ? "0 0 0 3px rgba(46,146,34,.1)" : "none",
         transition: "all 200ms var(--ease-out)",
       }}
     />
@@ -612,7 +612,7 @@ function TextArea({
         height: 120,
         boxSizing: "border-box",
         padding: "12px 16px",
-        border: `2px solid ${focused ? "#00B20B" : "#E5E5E5"}`,
+        border: `2px solid ${focused ? "#2E9222" : "#E5E5E5"}`,
         borderRadius: 8,
         fontFamily: "var(--font-manrope), sans-serif",
         fontSize: 14,
@@ -621,7 +621,7 @@ function TextArea({
         resize: "none",
         outline: "none",
         background: "#FFFFFF",
-        boxShadow: focused ? "0 0 0 3px rgba(0,178,11,.1)" : "none",
+        boxShadow: focused ? "0 0 0 3px rgba(46,146,34,.1)" : "none",
         transition: "all 200ms var(--ease-out)",
       }}
     />

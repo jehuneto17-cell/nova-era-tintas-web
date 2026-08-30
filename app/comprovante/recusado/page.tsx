@@ -265,7 +265,7 @@ function Recusado() {
                       height: 24,
                       borderRadius: "50%",
                       background: "#E8F5E9",
-                      color: "#00B20B",
+                      color: "#2E9222",
                       fontFamily: "var(--font-manrope), sans-serif",
                       fontWeight: 600,
                       fontSize: 12,
@@ -346,19 +346,19 @@ function Recusado() {
             }}
           >
             <Fact label="Nº Pedido" value={pedido.numero} />
-            <Fact label="Valor Total" value={brl(total)} color="#00B20B" />
+            <Fact label="Valor Total" value={brl(total)} color="#2E9222" />
             <Fact label="Última Atualização" value={formatDateTime(pedido.historico[pedido.historico.length - 1]?.quando)} />
           </div>
 
           <div style={{ display: "flex", flexDirection: "column", gap: 12, marginBottom: 24 }}>
             <motion.button
               onClick={() => router.push(`/comprovante/enviar?id=${pedido.id}`)}
-              whileHover={{ y: -1, backgroundColor: "#009208", boxShadow: "0 2px 8px rgba(0,178,11,.2)" }}
+              whileHover={{ y: -1, backgroundColor: "#24741B", boxShadow: "0 2px 8px rgba(46,146,34,.2)" }}
               whileTap={{ scale: 0.98 }}
               transition={{ duration: 0.2, ease: EASE_OUT }}
               style={{
                 height: 48,
-                background: "#00B20B",
+                background: "#2E9222",
                 color: "#FFFFFF",
                 border: "none",
                 borderRadius: 8,

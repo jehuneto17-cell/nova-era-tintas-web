@@ -56,7 +56,7 @@ export default function LoginPage() {
   const emailBorder = showEmailError
     ? "#E63946"
     : emailFocused || (email && emailValid)
-      ? "#00B20B"
+      ? "#2E9222"
       : "#E5E5E5";
 
   async function submit(e: React.FormEvent) {
@@ -169,7 +169,7 @@ export default function LoginPage() {
               outline: "none",
               background: "#FFFFFF",
               boxShadow:
-                email && emailValid && !showEmailError ? "0 0 0 3px rgba(0,178,11,.1)" : "none",
+                email && emailValid && !showEmailError ? "0 0 0 3px rgba(46,146,34,.1)" : "none",
               transition: "all 200ms var(--ease-out)",
             }}
           />
@@ -221,14 +221,14 @@ export default function LoginPage() {
                 height: 44,
                 boxSizing: "border-box",
                 padding: "12px 44px 12px 16px",
-                border: `2px solid ${pwFocused ? "#00B20B" : "#E5E5E5"}`,
+                border: `2px solid ${pwFocused ? "#2E9222" : "#E5E5E5"}`,
                 borderRadius: 8,
                 fontFamily: "var(--font-manrope), sans-serif",
                 fontSize: 14,
                 color: "#012418",
                 outline: "none",
                 background: "#FFFFFF",
-                boxShadow: pwFocused ? "0 0 0 3px rgba(0,178,11,.1)" : "none",
+                boxShadow: pwFocused ? "0 0 0 3px rgba(46,146,34,.1)" : "none",
                 transition: "all 200ms var(--ease-out)",
               }}
             />
@@ -258,13 +258,13 @@ export default function LoginPage() {
         <motion.button
           type="submit"
           disabled={!canSubmit}
-          whileHover={canSubmit ? { y: -1, boxShadow: "0 2px 8px rgba(0,178,11,.2)" } : undefined}
+          whileHover={canSubmit ? { y: -1, boxShadow: "0 2px 8px rgba(46,146,34,.2)" } : undefined}
           whileTap={canSubmit ? { scale: 0.98 } : undefined}
           transition={{ duration: 0.2, ease: EASE_OUT }}
           style={{
             width: "100%",
             height: 48,
-            background: "#00B20B",
+            background: "#2E9222",
             color: "#FFFFFF",
             border: "none",
             borderRadius: 8,
@@ -294,7 +294,7 @@ export default function LoginPage() {
           }}
         >
           Não tem conta?{" "}
-          <Link href="/cadastro" style={{ color: "#00B20B", fontWeight: 600 }}>
+          <Link href="/cadastro" style={{ color: "#2E9222", fontWeight: 600 }}>
             Criar conta
           </Link>
         </div>
@@ -324,7 +324,7 @@ function EyeToggle({ open, onClick }: { open: boolean; onClick: () => void }) {
         background: "transparent",
         cursor: "pointer",
         padding: 0,
-        color: hover ? "#00B20B" : "#999999",
+        color: hover ? "#2E9222" : "#999999",
         display: "grid",
         placeItems: "center",
         transition: "color 200ms var(--ease-out)",

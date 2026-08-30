@@ -102,7 +102,7 @@ function CategoryCard({ category, index, qtd }: { category: Categoria; index: nu
       onHoverEnd={() => setHover(false)}
       style={{
         background: "#FFFFFF",
-        border: `1px solid ${hover ? "#00B20B" : "#E5E5E5"}`,
+        border: `1px solid ${hover ? "#2E9222" : "#E5E5E5"}`,
         borderRadius: 12,
         overflow: "hidden",
         boxShadow: "0 1px 8px rgba(0,0,0,.05)",
@@ -155,7 +155,7 @@ function CategoryCard({ category, index, qtd }: { category: Categoria; index: nu
               fontFamily: "var(--font-manrope), sans-serif",
               fontWeight: 600,
               fontSize: 11,
-              color: "#00B20B",
+              color: "#2E9222",
               marginBottom: 12,
             }}
           >
@@ -166,7 +166,7 @@ function CategoryCard({ category, index, qtd }: { category: Categoria; index: nu
               fontFamily: "var(--font-manrope), sans-serif",
               fontWeight: 700,
               fontSize: 12,
-              color: hover ? "#00B20B" : "#0088B7",
+              color: hover ? "#2E9222" : "#0088B7",
               display: "inline-flex",
               alignItems: "center",
               gap: 4,

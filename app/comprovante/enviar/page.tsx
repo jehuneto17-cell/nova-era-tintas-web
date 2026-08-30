@@ -297,7 +297,7 @@ function EnviarComprovante() {
                   }}
                   style={{
                     background: dragging ? "#E8F5E9" : "#FFFFFF",
-                    border: `2px dashed ${dragging ? "#00B20B" : "#E5E5E5"}`,
+                    border: `2px dashed ${dragging ? "#2E9222" : "#E5E5E5"}`,
                     borderRadius: 12,
                     padding: "40px 24px",
                     textAlign: "center",
@@ -309,7 +309,7 @@ function EnviarComprovante() {
                     gap: 16,
                     minHeight: 200,
                     justifyContent: "center",
-                    boxShadow: dragging ? "0 4px 12px rgba(0,178,11,.15)" : "none",
+                    boxShadow: dragging ? "0 4px 12px rgba(46,146,34,.15)" : "none",
                     boxSizing: "border-box",
                     transition: "background 200ms var(--ease-out), border-color 200ms var(--ease-out)",
                   }}
@@ -321,7 +321,7 @@ function EnviarComprovante() {
                     height="48"
                     viewBox="0 0 24 24"
                     fill="none"
-                    stroke={dragging ? "#00B20B" : "#999999"}
+                    stroke={dragging ? "#2E9222" : "#999999"}
                     strokeWidth="1.6"
                     strokeLinecap="round"
                     strokeLinejoin="round"
@@ -448,7 +448,7 @@ function EnviarComprovante() {
                     <IconAction
                       onClick={() => fileInput.current?.click()}
                       color="#0088B7"
-                      hoverColor="#00B20B"
+                      hoverColor="#2E9222"
                       label="Trocar imagem"
                     >
                       <path d="M12 20h9" />
@@ -495,7 +495,7 @@ function EnviarComprovante() {
             }}
           >
             <Fact label="Nº Pedido" value={pedido.numero} />
-            <Fact label="Valor Total" value={brl(total)} color="#00B20B" />
+            <Fact label="Valor Total" value={brl(total)} color="#2E9222" />
             <Fact
               label="Data do Pedido"
               value={
@@ -556,7 +556,7 @@ function EnviarComprovante() {
                             height="20"
                             viewBox="0 0 24 24"
                             fill="none"
-                            stroke="#00B20B"
+                            stroke="#2E9222"
                             strokeWidth="2"
                             style={{ flex: "none" }}
                           >
@@ -596,12 +596,12 @@ function EnviarComprovante() {
             <motion.button
               onClick={submit}
               disabled={!hasFile || submitting}
-              whileHover={hasFile && !submitting ? { y: -1, boxShadow: "0 2px 8px rgba(0,178,11,.2)" } : undefined}
+              whileHover={hasFile && !submitting ? { y: -1, boxShadow: "0 2px 8px rgba(46,146,34,.2)" } : undefined}
               whileTap={hasFile && !submitting ? { scale: 0.98 } : undefined}
               transition={{ duration: 0.2, ease: EASE_OUT }}
               style={{
                 height: 48,
-                background: hasFile ? "#00B20B" : "#BFBFBF",
+                background: hasFile ? "#2E9222" : "#BFBFBF",
                 color: "#FFFFFF",
                 border: "none",
                 borderRadius: 8,
@@ -815,7 +815,7 @@ function DialogBtn({
         flex: 1,
         height: 44,
         background: variant === "danger" ? (hover ? "#CC2E36" : "#E63946") : "#FFFFFF",
-        border: variant === "danger" ? "none" : `2px solid ${hover ? "#00B20B" : "#E5E5E5"}`,
+        border: variant === "danger" ? "none" : `2px solid ${hover ? "#2E9222" : "#E5E5E5"}`,
         color: variant === "danger" ? "#FFFFFF" : "#012418",
         borderRadius: 8,
         fontFamily: "var(--font-archivo), sans-serif",

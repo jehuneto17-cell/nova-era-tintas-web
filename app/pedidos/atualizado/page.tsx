@@ -105,7 +105,7 @@ function Atualizado() {
               marginTop: 8,
               height: 44,
               padding: "0 20px",
-              background: "#00B20B",
+              background: "#2E9222",
               color: "#FFFFFF",
               border: "none",
               borderRadius: 8,
@@ -183,7 +183,7 @@ function Atualizado() {
                 height="48"
                 viewBox="0 0 24 24"
                 fill="none"
-                stroke="#00B20B"
+                stroke="#2E9222"
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -294,7 +294,7 @@ function Atualizado() {
                         </span>
                       )}
                       {mudou && !anterior && (
-                        <span style={{ fontFamily: "var(--font-manrope), sans-serif", fontSize: 11, color: "#00B20B", fontWeight: 600 }}>
+                        <span style={{ fontFamily: "var(--font-manrope), sans-serif", fontSize: 11, color: "#2E9222", fontWeight: 600 }}>
                           novo item
                         </span>
                       )}
@@ -357,7 +357,7 @@ function Atualizado() {
                 bold
                 border
               />
-              <Line label="Frete" value={pedido.frete > 0 ? brl(pedido.frete) : "Grátis"} color={pedido.frete > 0 ? undefined : "#00B20B"} bold />
+              <Line label="Frete" value={pedido.frete > 0 ? brl(pedido.frete) : "Grátis"} color={pedido.frete > 0 ? undefined : "#2E9222"} bold />
               <div
                 style={{
                   display: "flex",
@@ -371,7 +371,7 @@ function Atualizado() {
               >
                 <span style={{ fontFamily: "var(--font-archivo), sans-serif", fontWeight: 700, fontSize: 16, color: "#012418" }}>Total</span>
                 <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 2 }}>
-                  <span style={{ fontFamily: "var(--font-archivo), sans-serif", fontWeight: 700, fontSize: 16, color: diff < 0 ? "#00B20B" : diff > 0 ? "#E63946" : "#012418" }}>
+                  <span style={{ fontFamily: "var(--font-archivo), sans-serif", fontWeight: 700, fontSize: 16, color: diff < 0 ? "#2E9222" : diff > 0 ? "#E63946" : "#012418" }}>
                     {brl(total)}
                   </span>
                   {diff !== 0 && (
@@ -468,7 +468,7 @@ function Atualizado() {
                     padding: "4px 10px",
                     borderRadius: 4,
                     background: "#E8F5E9",
-                    color: "#00B20B",
+                    color: "#2E9222",
                   }}
                 >
                   {ESTADO_LABEL[pedido.estado]}
@@ -483,12 +483,12 @@ function Atualizado() {
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             <motion.button
               onClick={() => router.push(`/pedidos/${pedido.id}`)}
-              whileHover={{ y: -1, backgroundColor: "#009208", boxShadow: "0 2px 8px rgba(0,178,11,.2)" }}
+              whileHover={{ y: -1, backgroundColor: "#24741B", boxShadow: "0 2px 8px rgba(46,146,34,.2)" }}
               whileTap={{ scale: 0.98 }}
               transition={{ duration: 0.2, ease: EASE_OUT }}
               style={{
                 height: 48,
-                background: "#00B20B",
+                background: "#2E9222",
                 color: "#FFFFFF",
                 border: "none",
                 borderRadius: 8,

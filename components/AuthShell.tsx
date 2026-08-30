@@ -71,7 +71,7 @@ export function Toast({ message, tone = "error" }: { message: string; tone?: "er
         position: "fixed",
         top: 20,
         right: 20,
-        background: tone === "error" ? "#E63946" : "#00B20B",
+        background: tone === "error" ? "#E63946" : "#2E9222",
         color: "#FFFFFF",
         padding: "14px 20px",
         borderRadius: 8,
@@ -221,8 +221,8 @@ export function Checkbox({
     >
       <motion.span
         animate={{
-          background: checked ? "#00B20B" : "transparent",
-          borderColor: checked ? "#00B20B" : "#E5E5E5",
+          background: checked ? "#2E9222" : "transparent",
+          borderColor: checked ? "#2E9222" : "#E5E5E5",
         }}
         transition={{ duration: 0.18, ease: EASE_OUT }}
         style={{

@@ -124,7 +124,7 @@ export default function CheckoutPage() {
                         display: "flex",
                         alignItems: "center",
                         padding: "12px 16px",
-                        border: on ? "2px solid #00B20B" : "1px solid #E5E5E5",
+                        border: on ? "2px solid #2E9222" : "1px solid #E5E5E5",
                         background: on ? "#F3FBF4" : "#FFFFFF",
                         borderRadius: 8,
                         cursor: "pointer",
@@ -139,8 +139,8 @@ export default function CheckoutPage() {
                           width: 20,
                           height: 20,
                           borderRadius: "50%",
-                          border: `2px solid ${on ? "#00B20B" : "#E5E5E5"}`,
-                          background: on ? "#00B20B" : "#FFFFFF",
+                          border: `2px solid ${on ? "#2E9222" : "#E5E5E5"}`,
+                          background: on ? "#2E9222" : "#FFFFFF",
                           flex: "none",
                           boxShadow: on ? "inset 0 0 0 3px #FFFFFF" : "none",
                           transition: "all 200ms var(--ease-out)",
@@ -235,7 +235,7 @@ export default function CheckoutPage() {
                     justifyContent: "space-between",
                     alignItems: "center",
                     padding: "12px 16px",
-                    border: on ? "2px solid #00B20B" : "1px solid #E5E5E5",
+                    border: on ? "2px solid #2E9222" : "1px solid #E5E5E5",
                     background: on ? "#F3FBF4" : "#FFFFFF",
                     borderRadius: 8,
                     cursor: "pointer",
@@ -251,8 +251,8 @@ export default function CheckoutPage() {
                         width: 20,
                         height: 20,
                         borderRadius: "50%",
-                        border: `2px solid ${on ? "#00B20B" : "#E5E5E5"}`,
-                        background: on ? "#00B20B" : "#FFFFFF",
+                        border: `2px solid ${on ? "#2E9222" : "#E5E5E5"}`,
+                        background: on ? "#2E9222" : "#FFFFFF",
                         flex: "none",
                         boxShadow: on ? "inset 0 0 0 3px #FFFFFF" : "none",
                         transition: "all 200ms var(--ease-out)",
@@ -288,7 +288,7 @@ export default function CheckoutPage() {
                       fontFamily: "var(--font-manrope), sans-serif",
                       fontWeight: 600,
                       fontSize: 12,
-                      color: opt.cost > 0 ? "#E63946" : "#00B20B",
+                      color: opt.cost > 0 ? "#E63946" : "#2E9222",
                     }}
                   >
                     {opt.cost > 0 ? brl(opt.cost) : "Grátis"}
@@ -351,7 +351,7 @@ export default function CheckoutPage() {
                     fontFamily: "var(--font-manrope), sans-serif",
                     fontWeight: 600,
                     fontSize: 12,
-                    color: "#00B20B",
+                    color: "#2E9222",
                     flex: "none",
                   }}
                 >
@@ -369,7 +369,7 @@ export default function CheckoutPage() {
             <Row
               label="Frete"
               value={shipCost > 0 ? brl(shipCost) : "Grátis"}
-              valueColor={shipCost > 0 ? "#012418" : "#00B20B"}
+              valueColor={shipCost > 0 ? "#012418" : "#2E9222"}
               border
             />
             <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -385,7 +385,7 @@ export default function CheckoutPage() {
           <div
             style={{
               background: "#FFFFFF",
-              border: "2px solid #00B20B",
+              border: "2px solid #2E9222",
               borderRadius: 8,
               padding: 16,
               margin: "16px 0",
@@ -414,7 +414,7 @@ export default function CheckoutPage() {
                 fontFamily: "var(--font-archivo), sans-serif",
                 fontWeight: 800,
                 fontSize: 18,
-                color: "#00B20B",
+                color: "#2E9222",
               }}
             >
               {brl(total)}

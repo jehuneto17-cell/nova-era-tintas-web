@@ -176,7 +176,7 @@ export default function ConfirmacaoPage() {
               width: 64,
               height: 64,
               borderRadius: "50%",
-              background: "#00B20B",
+              background: "#2E9222",
               display: "grid",
               placeItems: "center",
               marginBottom: 24,
@@ -210,7 +210,7 @@ export default function ConfirmacaoPage() {
               fontFamily: "var(--font-archivo), sans-serif",
               fontWeight: 800,
               fontSize: 36,
-              color: "#00B20B",
+              color: "#2E9222",
             }}
           >
             Obrigado!
@@ -268,7 +268,7 @@ export default function ConfirmacaoPage() {
                 fontFamily: "ui-monospace, Menlo, monospace",
                 fontWeight: 800,
                 fontSize: 18,
-                color: "#00B20B",
+                color: "#2E9222",
                 userSelect: "all",
                 cursor: "pointer",
                 background: "transparent",
@@ -290,7 +290,7 @@ export default function ConfirmacaoPage() {
                 fontFamily: "var(--font-archivo), sans-serif",
                 fontWeight: 800,
                 fontSize: 18,
-                color: "#00B20B",
+                color: "#2E9222",
               }}
             >
               {brl(total)}
@@ -315,7 +315,7 @@ export default function ConfirmacaoPage() {
                 fontFamily: "var(--font-manrope), sans-serif",
                 fontWeight: 600,
                 fontSize: 12,
-                color: "#00B20B",
+                color: "#2E9222",
               }}
             >
               Número copiado!
@@ -337,7 +337,7 @@ export default function ConfirmacaoPage() {
             Status do Pedido
           </h3>
           {STAGES.map((st, i) => {
-            const color = st.state === "done" ? "#00B20B" : st.state === "current" ? "#FFB703" : "#CCCCCC";
+            const color = st.state === "done" ? "#2E9222" : st.state === "current" ? "#FFB703" : "#CCCCCC";
             const iconColor = st.state === "pending" ? "#666666" : "#FFFFFF";
             return (
               <motion.div
@@ -452,7 +452,7 @@ export default function ConfirmacaoPage() {
                   fontFamily: "var(--font-archivo), sans-serif",
                   fontWeight: 800,
                   fontSize: 14,
-                  color: "#00B20B",
+                  color: "#2E9222",
                 }}
               >
                 {brl(it.price * it.qty)}

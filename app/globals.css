@@ -2,8 +2,8 @@
 
 /* Design tokens — extracted from Claude Designer sources */
 :root {
-  --green: #00b20b;
-  --green-dark: #009208;
+  --green: #2e9222;
+  --green-dark: #24741b;
   --green-tint: #f3fbf4;
   --blue: #0088b7;
   --ink: #012418;
@@ -86,7 +86,7 @@ a:hover {
 
 /* Desktop-first grids that collapse at the mobile breakpoints. */
 .footer-grid {
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
 }
 .grid-4 {
   display: grid;

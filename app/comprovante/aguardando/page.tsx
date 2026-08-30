@@ -206,7 +206,7 @@ function Aguardando() {
                           top: -16,
                           width: 2,
                           height: 16,
-                          background: i <= 1 ? "#00B20B" : "#E5E5E5",
+                          background: i <= 1 ? "#2E9222" : "#E5E5E5",
                         }}
                       />
                     )}
@@ -216,7 +216,7 @@ function Aguardando() {
                         height: 36,
                         borderRadius: "50%",
                         flex: "0 0 36px",
-                        background: done ? "#00B20B" : "transparent",
+                        background: done ? "#2E9222" : "transparent",
                         border: done ? "none" : current ? "2px solid #FFB703" : "2px solid #E5E5E5",
                         display: "flex",
                         alignItems: "center",
@@ -301,7 +301,7 @@ function Aguardando() {
             }}
           >
             <Fact label="Nº Pedido" value={pedido.numero} />
-            <Fact label="Valor" value={brl(total)} color="#00B20B" />
+            <Fact label="Valor" value={brl(total)} color="#2E9222" />
             <Fact label="Comprovante" value={`Enviado em ${formatDateTime(pedido.comprovanteEnviadoEm)}`} />
             <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
               <FactCaption>Status</FactCaption>
@@ -400,12 +400,12 @@ function Aguardando() {
           <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             <motion.button
               onClick={() => router.push(`/pedidos/${pedido.id}`)}
-              whileHover={{ y: -1, backgroundColor: "#009208", boxShadow: "0 2px 8px rgba(0,178,11,.2)" }}
+              whileHover={{ y: -1, backgroundColor: "#24741B", boxShadow: "0 2px 8px rgba(46,146,34,.2)" }}
               whileTap={{ scale: 0.98 }}
               transition={{ duration: 0.2, ease: EASE_OUT }}
               style={{
                 height: 48,
-                background: "#00B20B",
+                background: "#2E9222",
                 color: "#FFFFFF",
                 border: "none",
                 borderRadius: 8,

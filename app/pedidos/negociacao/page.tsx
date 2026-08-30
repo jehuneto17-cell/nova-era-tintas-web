@@ -258,7 +258,7 @@ function Negociacao() {
 
             <div style={{ display: "flex", flexDirection: "column", marginBottom: 20 }}>
               <Line label="Subtotal" value={brl(subtotal)} bold border />
-              <Line label="Frete" value={pedido.frete > 0 ? brl(pedido.frete) : "Grátis"} color={pedido.frete > 0 ? undefined : "#00B20B"} bold />
+              <Line label="Frete" value={pedido.frete > 0 ? brl(pedido.frete) : "Grátis"} color={pedido.frete > 0 ? undefined : "#2E9222"} bold />
               <div
                 style={{
                   display: "flex",
@@ -275,7 +275,7 @@ function Negociacao() {
                     fontFamily: "var(--font-archivo), sans-serif",
                     fontWeight: 700,
                     fontSize: 16,
-                    color: "#00B20B",
+                    color: "#2E9222",
                   }}
                 >
                   Total
@@ -289,7 +289,7 @@ function Negociacao() {
                     fontFamily: "var(--font-archivo), sans-serif",
                     fontWeight: 700,
                     fontSize: 16,
-                    color: "#00B20B",
+                    color: "#2E9222",
                   }}
                 >
                   {brl(total)}
@@ -600,7 +600,7 @@ function DialogBtn({
   const styles = {
     ghost: {
       background: "#FFFFFF",
-      border: `2px solid ${hover ? "#00B20B" : "#E5E5E5"}`,
+      border: `2px solid ${hover ? "#2E9222" : "#E5E5E5"}`,
       color: "#012418",
     },
     danger: { background: hover ? "#CC2E36" : "#E63946", border: "none", color: "#FFFFFF" },

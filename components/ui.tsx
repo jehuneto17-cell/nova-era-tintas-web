@@ -38,7 +38,7 @@ export function PrimaryButton({
       style={{
         width: "100%",
         height,
-        background: off ? "#A5DCA8" : "#00B20B",
+        background: off ? "#A5DCA8" : "#2E9222",
         color: "#FFFFFF",
         border: "none",
         borderRadius: 8,
@@ -65,8 +65,8 @@ export function SecondaryButton({
   children,
   onClick,
   height = 48,
-  borderColor = "#00B20B",
-  color = "#00B20B",
+  borderColor = "#2E9222",
+  color = "#2E9222",
   style,
 }: {
   children: React.ReactNode;
@@ -152,7 +152,7 @@ export function Field({
   rows?: number;
 }) {
   const [focused, setFocused] = useState(false);
-  const borderColor = error ? "#E63946" : focused ? "#00B20B" : "#E5E5E5";
+  const borderColor = error ? "#E63946" : focused ? "#2E9222" : "#E5E5E5";
 
   const shared = {
     value,

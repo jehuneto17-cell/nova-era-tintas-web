@@ -63,8 +63,8 @@ Os tokens de cor espelham `brand.ts` do app mobile (repositório irmão) via Tai
 
 | Token | Hex | Uso |
 |---|---|---|
-| `primary` | `#00B20B` | Verde da marca — CTAs, destaques |
-| `primaryPressed` | `#00941F` | Estado pressionado |
+| `primary` | `#2E9222` | Verde da marca — CTAs, destaques |
+| `primaryPressed` | `#24741B` | Estado pressionado |
 | `ink` | `#012418` | Texto principal |
 | `link` | `#0088B7` | Links |
 | `danger` | `#E63946` | Erros, cancelamento |

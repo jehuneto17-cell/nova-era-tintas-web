@@ -15,7 +15,7 @@ const COLORS: [string, string][] = [
   ["Cinza", "#B8BCBB"],
   ["Vermelho", "#E63946"],
   ["Azul", "#0088B7"],
-  ["Verde", "#00B20B"],
+  ["Verde", "#2E9222"],
   ["Amarelo", "#FFB703"],
   ["Marrom", "#7B4B2A"],
 ];
@@ -184,7 +184,7 @@ export default function ProdutosPage() {
             <div
               style={{
                 height: 4,
-                background: "linear-gradient(to right,#E5E5E5 0%,#00B20B 50%,#E5E5E5 100%)",
+                background: "linear-gradient(to right,#E5E5E5 0%,#2E9222 50%,#E5E5E5 100%)",
                 borderRadius: 2,
                 marginTop: 12,
               }}
@@ -233,7 +233,7 @@ export default function ProdutosPage() {
                       height: 32,
                       borderRadius: "50%",
                       background: hex,
-                      border: `2px solid ${on ? "#00B20B" : "transparent"}`,
+                      border: `2px solid ${on ? "#2E9222" : "transparent"}`,
                       cursor: "pointer",
                       boxShadow: on ? "0 0 0 1px #E5E5E5" : "0 0 0 1px #EEEEEE",
                       padding: 0,
@@ -500,8 +500,8 @@ function CheckRow({
       <span style={{ display: "flex", alignItems: "center", gap: 10 }}>
         <motion.span
           animate={{
-            background: checked ? "#00B20B" : "#FFFFFF",
-            borderColor: checked ? "#00B20B" : "#E5E5E5",
+            background: checked ? "#2E9222" : "#FFFFFF",
+            borderColor: checked ? "#2E9222" : "#E5E5E5",
           }}
           transition={{ duration: 0.18, ease: EASE_OUT }}
           style={{
@@ -566,7 +566,7 @@ function NumInput({ value, onChange }: { value: string; onChange: (v: string) =>
         width: 80,
         height: 36,
         boxSizing: "border-box",
-        border: `2px solid ${focused ? "#00B20B" : "#E5E5E5"}`,
+        border: `2px solid ${focused ? "#2E9222" : "#E5E5E5"}`,
         padding: 8,
         borderRadius: 6,
         fontFamily: "var(--font-manrope), sans-serif",
@@ -620,7 +620,7 @@ function LinkButton({ onClick, children }: { onClick: () => void; children: Reac
         fontFamily: "var(--font-manrope), sans-serif",
         fontWeight: 500,
         fontSize: 11,
-        color: hover ? "#00B20B" : "#0088B7",
+        color: hover ? "#2E9222" : "#0088B7",
         transition: "color 200ms var(--ease-out)",
       }}
     >

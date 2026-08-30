@@ -297,7 +297,7 @@ export default function ProdutoPage({ params }: { params: Promise<{ id: string }
                     width: 80,
                     height: 80,
                     borderRadius: 8,
-                    border: `2px solid ${i === img ? "#00B20B" : "transparent"}`,
+                    border: `2px solid ${i === img ? "#2E9222" : "transparent"}`,
                     overflow: "hidden",
                     cursor: "pointer",
                     background: "#F5F5F5",
@@ -319,7 +319,7 @@ export default function ProdutoPage({ params }: { params: Promise<{ id: string }
             <div
               style={{
                 display: "inline-block",
-                background: "#00B20B",
+                background: "#2E9222",
                 color: "#FFFFFF",
                 padding: "6px 12px",
                 borderRadius: 4,
@@ -353,7 +353,7 @@ export default function ProdutoPage({ params }: { params: Promise<{ id: string }
                   padding: "3px 8px",
                   borderRadius: 7,
                   background: "var(--green-tint)",
-                  color: "#00B20B",
+                  color: "#2E9222",
                   fontFamily: "var(--font-archivo), sans-serif",
                   fontWeight: 700,
                   fontSize: 11,
@@ -397,7 +397,7 @@ export default function ProdutoPage({ params }: { params: Promise<{ id: string }
                   fontFamily: "var(--font-archivo), sans-serif",
                   fontWeight: 800,
                   fontSize: 32,
-                  color: "#00B20B",
+                  color: "#2E9222",
                 }}
               >
                 {variacao
@@ -455,7 +455,7 @@ export default function ProdutoPage({ params }: { params: Promise<{ id: string }
                           height: 40,
                           borderRadius: "50%",
                           background: c.hex,
-                          border: i === colorIdx ? "3px solid #00B20B" : "2px solid #E5E5E5",
+                          border: i === colorIdx ? "3px solid #2E9222" : "2px solid #E5E5E5",
                           transition: "all 200ms var(--ease-out)",
                           display: "block",
                         }}
@@ -491,8 +491,8 @@ export default function ProdutoPage({ params }: { params: Promise<{ id: string }
                     style={{
                       padding: "8px 16px",
                       borderRadius: 8,
-                      background: i === volumeIdx ? "#00B20B" : "#FFFFFF",
-                      border: `2px solid ${i === volumeIdx ? "#00B20B" : "#E5E5E5"}`,
+                      background: i === volumeIdx ? "#2E9222" : "#FFFFFF",
+                      border: `2px solid ${i === volumeIdx ? "#2E9222" : "#E5E5E5"}`,
                       color: i === volumeIdx ? "#FFFFFF" : "#012418",
                       fontFamily: "var(--font-manrope), sans-serif",
                       fontWeight: 600,
@@ -812,7 +812,7 @@ function PaletaSeletor({
             background: "#FFFFFF",
             transition: "border-color 200ms var(--ease-out)",
           }}
-          onFocus={(e) => (e.currentTarget.style.borderColor = "#00B20B")}
+          onFocus={(e) => (e.currentTarget.style.borderColor = "#2E9222")}
           onBlur={(e) => (e.currentTarget.style.borderColor = "#E5E5E5")}
         />
       </div>
@@ -839,8 +839,8 @@ function PaletaSeletor({
                   flex: "none",
                   padding: "8px 14px",
                   borderRadius: 20,
-                  border: `1.5px solid ${ativa ? "#00B20B" : "#E5E5E5"}`,
-                  background: ativa ? "#00B20B" : "#FFFFFF",
+                  border: `1.5px solid ${ativa ? "#2E9222" : "#E5E5E5"}`,
+                  background: ativa ? "#2E9222" : "#FFFFFF",
                   color: ativa ? "#FFFFFF" : "#666666",
                   fontFamily: "var(--font-manrope), sans-serif",
                   fontWeight: 600,
@@ -907,8 +907,8 @@ function PaletaSeletor({
                       height: 32,
                       borderRadius: "50%",
                       background: c.hex,
-                      border: selecionada ? "3px solid #00B20B" : "2px solid #E5E5E5",
-                      boxShadow: selecionada ? "0 0 0 2px rgba(0,178,11,.2)" : "none",
+                      border: selecionada ? "3px solid #2E9222" : "2px solid #E5E5E5",
+                      boxShadow: selecionada ? "0 0 0 2px rgba(46,146,34,.2)" : "none",
                       cursor: "pointer",
                       padding: 0,
                       transition: "border-color 200ms var(--ease-out), box-shadow 200ms var(--ease-out)",

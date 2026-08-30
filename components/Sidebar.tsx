@@ -71,7 +71,7 @@ function NavItem({
           padding: "12px 16px",
           borderRadius: 8,
           cursor: "pointer",
-          background: active ? "#00B20B" : "transparent",
+          background: active ? "#2E9222" : "transparent",
           color: active ? "#FFFFFF" : "#999999",
           fontFamily: "var(--font-manrope), sans-serif",
           fontSize: 14,

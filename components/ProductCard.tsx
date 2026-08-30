@@ -83,7 +83,7 @@ export function ProductCard({ produto, index = 0 }: { produto: Produto; index?: 
               position: "absolute",
               top: 12,
               left: 12,
-              background: "#00B20B",
+              background: "#2E9222",
               color: "#FFFFFF",
               padding: "6px 12px",
               borderRadius: 4,
@@ -157,7 +157,7 @@ export function ProductCard({ produto, index = 0 }: { produto: Produto; index?: 
               fontFamily: "var(--font-archivo), sans-serif",
               fontWeight: 800,
               fontSize: 16,
-              color: "#00B20B",
+              color: "#2E9222",
             }}
           >
             R$ {product.price}
@@ -179,7 +179,7 @@ export function ProductCard({ produto, index = 0 }: { produto: Produto; index?: 
             height: 40,
             width: "100%",
             padding: "10px 16px",
-            background: product.hasStock === false ? "#CCCCCC" : added ? "#009208" : "#00B20B",
+            background: product.hasStock === false ? "#CCCCCC" : added ? "#24741B" : "#2E9222",
             color: "#FFFFFF",
             border: "none",
             borderRadius: 8,

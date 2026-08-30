@@ -80,7 +80,7 @@ export function Header() {
         <Icon
           name="search"
           size={18}
-          color="#00B20B"
+          color="#2E9222"
           style={{ position: "absolute", left: 16, top: 13, pointerEvents: "none" }}
         />
         <input
@@ -101,7 +101,7 @@ export function Header() {
             boxSizing: "border-box",
             padding: "10px 40px 10px 44px",
             borderRadius: 24,
-            border: `2px solid ${focused ? "#00B20B" : "#E5E5E5"}`,
+            border: `2px solid ${focused ? "#2E9222" : "#E5E5E5"}`,
             boxShadow: focused ? "0 2px 8px rgba(0,0,0,.1)" : "none",
             outline: "none",
             fontFamily: "var(--font-manrope), sans-serif",

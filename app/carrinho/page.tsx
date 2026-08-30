@@ -211,7 +211,7 @@ export default function CarrinhoPage() {
                           fontFamily: "var(--font-manrope), sans-serif",
                           fontWeight: 600,
                           fontSize: 13,
-                          color: "#00B20B",
+                          color: "#2E9222",
                         }}
                       >
                         -{brl(discount)}
@@ -242,7 +242,7 @@ export default function CarrinhoPage() {
             <div
               style={{
                 background: "#FFFFFF",
-                border: "2px solid #00B20B",
+                border: "2px solid #2E9222",
                 borderRadius: 8,
                 padding: 16,
                 margin: "16px 0",
@@ -271,7 +271,7 @@ export default function CarrinhoPage() {
                   fontFamily: "var(--font-archivo), sans-serif",
                   fontWeight: 800,
                   fontSize: 20,
-                  color: "#00B20B",
+                  color: "#2E9222",
                 }}
               >
                 {brl(total)}
@@ -297,7 +297,7 @@ export default function CarrinhoPage() {
                       height: 40,
                       boxSizing: "border-box",
                       padding: "8px 12px",
-                      border: `2px solid ${couponError ? "#E63946" : couponFocused ? "#00B20B" : "#E5E5E5"}`,
+                      border: `2px solid ${couponError ? "#E63946" : couponFocused ? "#2E9222" : "#E5E5E5"}`,
                       borderRadius: 8,
                       fontFamily: "var(--font-manrope), sans-serif",
                       fontSize: 13,
@@ -316,7 +316,7 @@ export default function CarrinhoPage() {
                     style={{
                       height: 40,
                       padding: "0 16px",
-                      background: "#00B20B",
+                      background: "#2E9222",
                       color: "#FFFFFF",
                       border: "none",
                       borderRadius: 8,
@@ -506,7 +506,7 @@ function CartRow({
             fontFamily: "var(--font-archivo), sans-serif",
             fontWeight: 700,
             fontSize: 14,
-            color: "#00B20B",
+            color: "#2E9222",
           }}
         >
           {brl(line.price)}
@@ -525,7 +525,7 @@ function CartRow({
             fontFamily: "var(--font-archivo), sans-serif",
             fontWeight: 800,
             fontSize: 14,
-            color: "#00B20B",
+            color: "#2E9222",
           }}
         >
           {brl(line.price * line.qty)}

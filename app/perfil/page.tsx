@@ -123,8 +123,8 @@ export default function PerfilPage() {
                   width: 120,
                   height: 120,
                   borderRadius: "50%",
-                  border: "4px solid #00B20B",
-                  background: "#00B20B",
+                  border: "4px solid #2E9222",
+                  background: "#2E9222",
                   display: "grid",
                   placeItems: "center",
                   fontFamily: "var(--font-archivo), sans-serif",
@@ -274,10 +274,10 @@ export default function PerfilPage() {
           {/* Quick actions */}
           <div className="perks-grid" style={{ marginBottom: 24 }}>
             <ActionButton
-              color="#00B20B"
+              color="#2E9222"
               hoverBg="#F3FBF4"
               onClick={() => router.push("/pedidos")}
-              icon={<Icon name="package" size={20} color="#00B20B" />}
+              icon={<Icon name="package" size={20} color="#2E9222" />}
             >
               Meus Pedidos
             </ActionButton>
@@ -383,7 +383,7 @@ export default function PerfilPage() {
               href="https://www.instagram.com/jehu_dev_e.commerce/"
               target="_blank"
               rel="noopener noreferrer"
-              style={{ color: "#00B20B", textDecoration: "none" }}
+              style={{ color: "#2E9222", textDecoration: "none" }}
             >
               @JEHU_DEV_E.COMMERCE
             </a>
@@ -506,7 +506,7 @@ function EditableValue({
           onFocus={() => setFocused(true)}
           onBlur={() => setFocused(false)}
           aria-label={label}
-          style={{ ...inlineInputStyle, borderColor: focused ? "#00B20B" : "#E5E5E5" }}
+          style={{ ...inlineInputStyle, borderColor: focused ? "#2E9222" : "#E5E5E5" }}
         />
       ) : (
         <motion.span
@@ -590,7 +590,7 @@ function SaveButton({ onClick }: { onClick: () => void }) {
       initial={{ opacity: 0, y: -6 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -6 }}
-      whileHover={{ backgroundColor: "#009208" }}
+      whileHover={{ backgroundColor: "#24741B" }}
       whileTap={{ scale: 0.97 }}
       transition={{ duration: 0.2, ease: EASE_OUT }}
       onClick={onClick}
@@ -598,7 +598,7 @@ function SaveButton({ onClick }: { onClick: () => void }) {
         marginTop: 20,
         height: 40,
         padding: "0 20px",
-        background: "#00B20B",
+        background: "#2E9222",
         color: "#FFFFFF",
         border: "none",
         borderRadius: 8,
@@ -636,7 +636,7 @@ function InlineLink({
         fontFamily: "var(--font-manrope), sans-serif",
         fontWeight: 600,
         fontSize: size,
-        color: hover ? "#00B20B" : "#0088B7",
+        color: hover ? "#2E9222" : "#0088B7",
         transition: "color 200ms var(--ease-out)",
       }}
     >
@@ -683,8 +683,8 @@ function OutlineButton({ onClick, children }: { onClick: () => void; children: R
         height: 44,
         padding: "10px 24px",
         background: hover ? "#F3FBF4" : "#FFFFFF",
-        border: "2px solid #00B20B",
-        color: "#00B20B",
+        border: "2px solid #2E9222",
+        color: "#2E9222",
         fontFamily: "var(--font-archivo), sans-serif",
         fontWeight: 700,
         fontSize: 14,
@@ -757,7 +757,7 @@ function Switch({ on, onToggle, label }: { on: boolean; onToggle: () => void; la
         width: 44,
         height: 24,
         borderRadius: 12,
-        background: on ? "#00B20B" : "#E5E5E5",
+        background: on ? "#2E9222" : "#E5E5E5",
         position: "relative",
         cursor: "pointer",
         transition: "background 200ms var(--ease-out)",
@@ -797,7 +797,7 @@ function ModalButton({
   const styles = {
     ghost: {
       background: "#FFFFFF",
-      border: `2px solid ${hover ? "#00B20B" : "#E5E5E5"}`,
+      border: `2px solid ${hover ? "#2E9222" : "#E5E5E5"}`,
       color: "#012418",
     },
     danger: { background: hover ? "#CC2E36" : "#E63946", border: "none", color: "#FFFFFF" },
@@ -852,7 +852,7 @@ function ModalInput({
         height: 44,
         boxSizing: "border-box",
         padding: "0 14px",
-        border: `2px solid ${focused ? "#00B20B" : "#E5E5E5"}`,
+        border: `2px solid ${focused ? "#2E9222" : "#E5E5E5"}`,
         borderRadius: 8,
         fontFamily: "var(--font-manrope), sans-serif",
         fontSize: 14,

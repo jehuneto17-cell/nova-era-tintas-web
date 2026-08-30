@@ -91,7 +91,7 @@ function Resultados() {
                 fontFamily: "var(--font-manrope), sans-serif",
                 fontWeight: 500,
                 fontSize: 12,
-                color: "#00B20B",
+                color: "#2E9222",
                 marginLeft: 8,
               }}
             >

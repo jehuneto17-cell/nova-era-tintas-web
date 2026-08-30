@@ -30,10 +30,10 @@ const ESTADO_STYLE: Record<PedidoEstado, { bg: string; color: string }> = {
   em_negociacao: { bg: "#FFF8E5", color: "#FFB703" },
   aguardando_pagamento: { bg: "#FFF8E5", color: "#FFB703" },
   aguardando_confirmacao: { bg: "#FFF8E5", color: "#FFB703" },
-  pago: { bg: "#E8F5E9", color: "#00B20B" },
+  pago: { bg: "#E8F5E9", color: "#2E9222" },
   separacao: { bg: "#F0F7FB", color: "#0088B7" },
   enviado: { bg: "#F0F7FB", color: "#0088B7" },
-  entregue: { bg: "#E8F5E9", color: "#00B20B" },
+  entregue: { bg: "#E8F5E9", color: "#2E9222" },
   cancelado: { bg: "#FFEBEE", color: "#E63946" },
   expirado: { bg: "#FFEBEE", color: "#E63946" },
 };
@@ -315,7 +315,7 @@ export default function PedidoDetalhePage() {
               {STAGE_LABELS.map((label, i) => {
                 const done = allDone || i < currentStage;
                 const isCurrent = !allDone && i === currentStage;
-                const circleBg = done ? "#00B20B" : isCurrent ? "#FFB703" : "#E5E5E5";
+                const circleBg = done ? "#2E9222" : isCurrent ? "#FFB703" : "#E5E5E5";
                 const lineDone = allDone || i - 1 < currentStage;
 
                 return (
@@ -340,7 +340,7 @@ export default function PedidoDetalhePage() {
                           left: "-50%",
                           width: "100%",
                           height: 2,
-                          background: lineDone ? "#00B20B" : "#E5E5E5",
+                          background: lineDone ? "#2E9222" : "#E5E5E5",
                           zIndex: 0,
                           transformOrigin: "left",
                         }}
@@ -482,7 +482,7 @@ export default function PedidoDetalhePage() {
                           fontFamily: "var(--font-manrope), sans-serif",
                           fontWeight: 600,
                           fontSize: 14,
-                          color: "#00B20B",
+                          color: "#2E9222",
                         }}
                       >
                         {brl(it.preco * it.qtd)}
@@ -574,7 +574,7 @@ export default function PedidoDetalhePage() {
                   }}
                 >
                   <SummaryLine label="Subtotal" value={brl(subtotal)} border />
-                  <SummaryLine label="Frete" value={pedido.frete > 0 ? brl(pedido.frete) : "Grátis"} valueColor={pedido.frete > 0 ? "#012418" : "#00B20B"} />
+                  <SummaryLine label="Frete" value={pedido.frete > 0 ? brl(pedido.frete) : "Grátis"} valueColor={pedido.frete > 0 ? "#012418" : "#2E9222"} />
                   <div
                     style={{
                       display: "flex",
@@ -591,7 +591,7 @@ export default function PedidoDetalhePage() {
                         fontFamily: "var(--font-archivo), sans-serif",
                         fontWeight: 700,
                         fontSize: 16,
-                        color: "#00B20B",
+                        color: "#2E9222",
                       }}
                     >
                       Total
@@ -601,7 +601,7 @@ export default function PedidoDetalhePage() {
                         fontFamily: "var(--font-archivo), sans-serif",
                         fontWeight: 700,
                         fontSize: 16,
-                        color: "#00B20B",
+                        color: "#2E9222",
                       }}
                     >
                       {brl(total)}
@@ -622,7 +622,7 @@ export default function PedidoDetalhePage() {
                 >
                   {showPagar && (
                     <>
-                      <ActionBtn bg="#00B20B" hoverBg="#009208" onClick={() => router.push(`/pagamento?id=${pedido.id}`)}>
+                      <ActionBtn bg="#2E9222" hoverBg="#24741B" onClick={() => router.push(`/pagamento?id=${pedido.id}`)}>
                         Pagar Agora
                       </ActionBtn>
                       <ActionBtn outline color="#E63946" hoverBg="#FFEBEE" onClick={() => setShowCancel(true)}>
@@ -885,7 +885,7 @@ function BackLink({ onClick, label = "Voltar" }: { onClick: () => void; label?: 
       aria-label={label}
       title={label}
       style={{
-        color: hover ? "#00B20B" : "#012418",
+        color: hover ? "#2E9222" : "#012418",
         display: "flex",
         background: "transparent",
         border: "none",
@@ -931,7 +931,7 @@ function ModalBtn({
         flex: 1,
         height: 44,
         background: variant === "danger" ? (hover ? "#CC2E36" : "#E63946") : "#FFFFFF",
-        border: variant === "danger" ? "none" : `2px solid ${hover ? "#00B20B" : "#E5E5E5"}`,
+        border: variant === "danger" ? "none" : `2px solid ${hover ? "#2E9222" : "#E5E5E5"}`,
         color: variant === "danger" ? "#FFFFFF" : "#012418",
         borderRadius: 8,
         fontFamily: "var(--font-archivo), sans-serif",

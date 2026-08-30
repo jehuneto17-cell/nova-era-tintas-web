@@ -33,7 +33,7 @@ export function Steps({ current }: { current: 1 | 2 | 3 }) {
               <motion.div
                 initial={false}
                 animate={{
-                  background: done ? "#00B20B" : "#F5F5F5",
+                  background: done ? "#2E9222" : "#F5F5F5",
                   color: done ? "#FFFFFF" : "#999999",
                   scale: st.n === current ? 1.1 : 1,
                 }}

@@ -288,7 +288,7 @@ function Pagamento() {
                     alignItems: "center",
                     gap: 12,
                     background: "#FFFFFF",
-                    border: "2px solid #00B20B",
+                    border: "2px solid #2E9222",
                     borderRadius: 8,
                     padding: 16,
                     marginBottom: 16,
@@ -309,7 +309,7 @@ function Pagamento() {
                   </span>
                   <motion.button
                     onClick={copyKey}
-                    whileHover={{ scale: 1.06, backgroundColor: "#009208" }}
+                    whileHover={{ scale: 1.06, backgroundColor: "#24741B" }}
                     whileTap={{ scale: 0.92 }}
                     transition={{ duration: 0.2, ease: EASE_OUT }}
                     aria-label="Copiar chave PIX"
@@ -317,7 +317,7 @@ function Pagamento() {
                       width: 40,
                       height: 40,
                       flex: "none",
-                      background: "#00B20B",
+                      background: "#2E9222",
                       color: "#FFFFFF",
                       border: "none",
                       borderRadius: 6,
@@ -394,7 +394,7 @@ function Pagamento() {
               gap: 4,
               padding: 20,
               background: "#E8F5E9",
-              border: "1px solid #00B20B",
+              border: "1px solid #2E9222",
               borderRadius: 8,
               marginTop: 24,
             }}
@@ -404,7 +404,7 @@ function Pagamento() {
                 fontFamily: "var(--font-manrope), sans-serif",
                 fontWeight: 500,
                 fontSize: 12,
-                color: "#00B20B",
+                color: "#2E9222",
               }}
             >
               Valor a pagar:
@@ -414,7 +414,7 @@ function Pagamento() {
                 fontFamily: "var(--font-archivo), sans-serif",
                 fontWeight: 800,
                 fontSize: 28,
-                color: "#00B20B",
+                color: "#2E9222",
               }}
             >
               {brl(total)}
@@ -484,7 +484,7 @@ function Pagamento() {
                     fontFamily: "var(--font-manrope), sans-serif",
                     fontWeight: 600,
                     fontSize: 12,
-                    color: "#00B20B",
+                    color: "#2E9222",
                     flex: "none",
                   }}
                 >
@@ -523,7 +523,7 @@ function Pagamento() {
             <SmallRow
               label="Frete"
               value={freteValor > 0 ? brl(freteValor) : "Grátis"}
-              valueColor={freteValor > 0 ? "#012418" : "#00B20B"}
+              valueColor={freteValor > 0 ? "#012418" : "#2E9222"}
               border
             />
             <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -539,7 +539,7 @@ function Pagamento() {
           <div
             style={{
               background: "#FFFFFF",
-              border: "2px solid #00B20B",
+              border: "2px solid #2E9222",
               borderRadius: 8,
               padding: 16,
               margin: "16px 0",
@@ -564,7 +564,7 @@ function Pagamento() {
                 fontFamily: "var(--font-archivo), sans-serif",
                 fontWeight: 800,
                 fontSize: 18,
-                color: "#00B20B",
+                color: "#2E9222",
               }}
             >
               {brl(total)}
@@ -624,8 +624,8 @@ function TabButton({
         fontFamily: "var(--font-archivo), sans-serif",
         fontWeight: 700,
         fontSize: 14,
-        color: active ? "#00B20B" : "#999999",
-        borderBottom: `3px solid ${active ? "#00B20B" : "transparent"}`,
+        color: active ? "#2E9222" : "#999999",
+        borderBottom: `3px solid ${active ? "#2E9222" : "transparent"}`,
         cursor: "pointer",
         marginBottom: -2,
         transition: "color 200ms var(--ease-out), border-color 200ms var(--ease-out)",

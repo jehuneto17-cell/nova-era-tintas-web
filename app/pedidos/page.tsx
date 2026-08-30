@@ -28,10 +28,10 @@ const ESTADO_STYLE: Record<PedidoEstado, { bg: string; color: string }> = {
   em_negociacao: { bg: "#FFF8E5", color: "#FFB703" },
   aguardando_pagamento: { bg: "#FFF8E5", color: "#FFB703" },
   aguardando_confirmacao: { bg: "#FFF8E5", color: "#FFB703" },
-  pago: { bg: "#E8F5E9", color: "#00B20B" },
+  pago: { bg: "#E8F5E9", color: "#2E9222" },
   separacao: { bg: "#F0F7FB", color: "#0088B7" },
   enviado: { bg: "#F0F7FB", color: "#0088B7" },
-  entregue: { bg: "#E8F5E9", color: "#00B20B" },
+  entregue: { bg: "#E8F5E9", color: "#2E9222" },
   cancelado: { bg: "#FFEBEE", color: "#E63946" },
   expirado: { bg: "#FFEBEE", color: "#E63946" },
 };
@@ -489,7 +489,7 @@ function OrderRow({ pedido, index, onOpen }: { pedido: Pedido; index: number; on
           fontFamily: "var(--font-manrope), sans-serif",
           fontWeight: 600,
           fontSize: 13,
-          color: "#00B20B",
+          color: "#2E9222",
         }}
       >
         {brl(pedidoTotal(pedido))}
@@ -512,7 +512,7 @@ function OrderRow({ pedido, index, onOpen }: { pedido: Pedido; index: number; on
         </span>
       </div>
       <motion.div
-        animate={{ x: hover ? 2 : 0, color: hover ? "#00B20B" : "#999999" }}
+        animate={{ x: hover ? 2 : 0, color: hover ? "#2E9222" : "#999999" }}
         transition={{ duration: 0.15, ease: EASE_OUT }}
         style={{ fontSize: 20, textAlign: "right" }}
       >
@@ -579,14 +579,14 @@ function SearchInput({ value, onChange }: { value: string; onChange: (v: string)
           height: 40,
           boxSizing: "border-box",
           padding: "10px 16px 10px 38px",
-          border: `2px solid ${focused ? "#00B20B" : "#E5E5E5"}`,
+          border: `2px solid ${focused ? "#2E9222" : "#E5E5E5"}`,
           borderRadius: 8,
           fontFamily: "var(--font-manrope), sans-serif",
           fontSize: 14,
           color: "#012418",
           outline: "none",
           background: "#FFFFFF",
-          boxShadow: focused ? "0 0 0 3px rgba(0,178,11,.1)" : "none",
+          boxShadow: focused ? "0 0 0 3px rgba(46,146,34,.1)" : "none",
           transition: "all 200ms var(--ease-out)",
         }}
       />
@@ -618,7 +618,7 @@ function FilterSelect({
         minWidth: 140,
         height: 40,
         padding: "10px 12px",
-        border: `2px solid ${focused ? "#00B20B" : "#E5E5E5"}`,
+        border: `2px solid ${focused ? "#2E9222" : "#E5E5E5"}`,
         borderRadius: 8,
         fontFamily: "var(--font-manrope), sans-serif",
         fontSize: 14,
@@ -655,7 +655,7 @@ function ClearFilters({ onClick }: { onClick: () => void }) {
         height: 40,
         background: "transparent",
         border: "none",
-        color: hover ? "#00B20B" : "#0088B7",
+        color: hover ? "#2E9222" : "#0088B7",
         fontFamily: "var(--font-manrope), sans-serif",
         fontWeight: 600,
         fontSize: 13,
@@ -744,7 +744,7 @@ function PageArrow({
         width: 36,
         height: 36,
         borderRadius: 6,
-        border: `1px solid ${hover && !disabled ? "#00B20B" : "#E5E5E5"}`,
+        border: `1px solid ${hover && !disabled ? "#2E9222" : "#E5E5E5"}`,
         background: disabled ? "#F8F8F8" : hover ? "#F8F8F8" : "transparent",
         color: disabled ? "#CCCCCC" : "#012418",
         cursor: disabled ? "not-allowed" : "pointer",
@@ -764,7 +764,7 @@ function PageNumber({ n, active, onClick }: { n: number; active: boolean; onClic
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       whileTap={{ scale: 0.92 }}
-      animate={{ background: active ? "#00B20B" : hover ? "#F8F8F8" : "transparent" }}
+      animate={{ background: active ? "#2E9222" : hover ? "#F8F8F8" : "transparent" }}
       transition={{ duration: 0.2, ease: EASE_OUT }}
       aria-current={active ? "page" : undefined}
       style={{

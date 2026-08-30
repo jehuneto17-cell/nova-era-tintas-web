@@ -138,7 +138,7 @@ export default function ContatoPage() {
             transition={{ duration: 0.2, ease: EASE_OUT }}
             style={{
               height: 48,
-              background: podeEnviar ? "#00B20B" : "#BFBFBF",
+              background: podeEnviar ? "#2E9222" : "#BFBFBF",
               color: "#FFFFFF",
               border: "none",
               borderRadius: 8,
@@ -212,7 +212,7 @@ function Input({
         height: 44,
         boxSizing: "border-box",
         padding: "12px 16px",
-        border: `2px solid ${focused ? "#00B20B" : "#E5E5E5"}`,
+        border: `2px solid ${focused ? "#2E9222" : "#E5E5E5"}`,
         borderRadius: 8,
         fontFamily: "var(--font-manrope), sans-serif",
         fontSize: 14,
@@ -248,7 +248,7 @@ function TextArea({
         height: 120,
         boxSizing: "border-box",
         padding: "12px 16px",
-        border: `2px solid ${focused ? "#00B20B" : "#E5E5E5"}`,
+        border: `2px solid ${focused ? "#2E9222" : "#E5E5E5"}`,
         borderRadius: 8,
         fontFamily: "var(--font-manrope), sans-serif",
         fontSize: 14,
