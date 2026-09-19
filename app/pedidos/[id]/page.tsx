@@ -10,6 +10,7 @@ import { Placeholder } from "@/components/Placeholder";
 import { Icon } from "@/components/Icon";
 import { EASE_OUT } from "@/components/ui";
 import { subscribePedido } from "@/lib/pedidos";
+import { getProduto } from "@/lib/produtos";
 import { useWhatsapp } from "@/lib/hooks";
 import { brl } from "@/lib/store";
 import type { Pedido, PedidoEstado } from "@/lib/types";
@@ -69,6 +70,7 @@ export default function PedidoDetalhePage() {
   const whatsapp = useWhatsapp();
   const [pedido, setPedido] = useState<Pedido | null | undefined>(undefined);
   const [loadedId, setLoadedId] = useState<string | null>(null);
+  const [fotos, setFotos] = useState<Record<string, string>>({});
 
   const [showCancel, setShowCancel] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
@@ -82,6 +84,23 @@ export default function PedidoDetalhePage() {
   useEffect(() => {
     return subscribePedido(params.id, setPedido);
   }, [params.id]);
+
+  useEffect(() => {
+    if (!pedido) return;
+    const faltando = [...new Set(pedido.itens.map((it) => it.produtoId))].filter((id) => !(id in fotos));
+    if (!faltando.length) return;
+    let ativo = true;
+    Promise.all(faltando.map((id) => getProduto(id).then((p) => [id, p?.fotos[0]?.url ?? ""] as const))).then(
+      (pares) => {
+        if (!ativo) return;
+        setFotos((prev) => ({ ...prev, ...Object.fromEntries(pares) }));
+      }
+    );
+    return () => {
+      ativo = false;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pedido]);
 
   useEffect(() => () => {
     if (timer.current) clearTimeout(timer.current);
@@ -426,7 +445,16 @@ export default function PedidoDetalhePage() {
                         background: "#F8F8F8",
                       }}
                     >
-                      <Placeholder label={it.nome} fontSize={9} />
+                      {fotos[it.produtoId] ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={fotos[it.produtoId]}
+                          alt={it.nome}
+                          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                        />
+                      ) : (
+                        <Placeholder label={it.nome} fontSize={9} />
+                      )}
                     </div>
                     <div style={{ display: "flex", flexDirection: "column", gap: 8, flex: 1, minWidth: 0 }}>
                       <span
