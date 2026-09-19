@@ -148,7 +148,7 @@ export default function ProdutoPage({ params }: { params: Promise<{ id: string }
   const fotoVariacao = variacao?.foto ?? (produto ? produto.variacoes[`__item__|${selectedVolume}`]?.foto : undefined);
   useEffect(() => {
     const i = fotoVariacao ? shots.indexOf(fotoVariacao) : -1;
-    if (i >= 0) setImg(i);
+    setImg(Math.max(i, 0)); // sem foto na variação, volta à primeira foto do produto
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fotoVariacao]);
   const familias = useMemo(() => agruparPorFamilia(paleta), [paleta]);
