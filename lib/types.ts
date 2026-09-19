@@ -4,6 +4,7 @@ export interface ProdutoVariacao {
   preco: number;
   estoque: number;
   ativo: boolean;
+  foto?: string; // só produtos tipo item
 }
 
 export interface ProdutoCor {

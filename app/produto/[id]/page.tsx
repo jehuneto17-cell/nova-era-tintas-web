@@ -135,7 +135,8 @@ export default function ProdutoPage({ params }: { params: Promise<{ id: string }
     };
   }, [id]);
 
-  const shots = produto?.fotos.length ? produto.fotos.map((f) => f.url) : [];
+  const fotosVar = produto ? Object.values(produto.variacoes).map((v) => v.foto).filter((f): f is string => !!f) : [];
+  const shots = produto?.fotos.length || fotosVar.length ? [...(produto?.fotos.map((f) => f.url) ?? []), ...fotosVar] : [];
   const fav = produto ? favorites.includes(produto.id) : false;
 
   const corSelecionadaPaleta = paleta.find((c) => c.id === corPaletaId);
@@ -144,6 +145,12 @@ export default function ProdutoPage({ params }: { params: Promise<{ id: string }
   const chaveCor = produto?.todasCores ? CHAVE_TODAS_CORES : selectedCor;
   const variacaoChave = chaveCor && selectedVolume ? `${chaveCor}|${selectedVolume}` : null;
   const variacao = produto && variacaoChave ? produto.variacoes[variacaoChave] : undefined;
+  const fotoVariacao = variacao?.foto ?? (produto ? produto.variacoes[`__item__|${selectedVolume}`]?.foto : undefined);
+  useEffect(() => {
+    const i = fotoVariacao ? shots.indexOf(fotoVariacao) : -1;
+    if (i >= 0) setImg(i);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fotoVariacao]);
   const familias = useMemo(() => agruparPorFamilia(paleta), [paleta]);
 
   const precoMin = produto ? precoMinimo(produto) : 0;
