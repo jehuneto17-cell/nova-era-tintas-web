@@ -5,6 +5,7 @@ export interface ProdutoVariacao {
   estoque: number;
   ativo: boolean;
   foto?: string; // só produtos tipo item
+  descontoPct?: number; // desconto à vista só desta variação; ausente = usa o do produto
 }
 
 export interface ProdutoCor {

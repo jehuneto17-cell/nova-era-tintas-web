@@ -8,7 +8,7 @@ import { Placeholder } from "@/components/Placeholder";
 import { CategoryIcon } from "@/components/CategoryIcon";
 import { SectionTitle } from "@/components/ui";
 import { useBranding, useCategoriasAtivas, useProdutos } from "@/lib/hooks";
-import { contarPorCategoria, precoMinimo, temEstoque } from "@/lib/produtos";
+import { contarPorCategoria, precoMinimo, temEstoque, temPromo } from "@/lib/produtos";
 import type { Categoria } from "@/lib/types";
 
 /** Screen 1 — Home Web. */
@@ -20,7 +20,7 @@ export default function HomePage() {
 
   const emEstoque = produtos.filter(temEstoque);
   const bestsellers = [...emEstoque].sort((a, b) => precoMinimo(b) - precoMinimo(a)).slice(0, 4);
-  const promos = produtos.filter((p) => p.descontoPct > 0).slice(0, 8);
+  const promos = produtos.filter(temPromo).slice(0, 8);
 
   return (
     <Shell>

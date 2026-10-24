@@ -9,7 +9,7 @@ import { ProductCard } from "@/components/ProductCard";
 import { Placeholder } from "@/components/Placeholder";
 import { Heart, Icon } from "@/components/Icon";
 import { PrimaryButton, QtyStepper, SecondaryButton, SectionTitle, Stars, EASE_OUT } from "@/components/ui";
-import { getProduto, getProdutosPorCategoria, precoAVista, precoMaximo, precoMinimo } from "@/lib/produtos";
+import { descontoDe, getProduto, getProdutosPorCategoria, precoAVista, precoMaximo, precoMinimo } from "@/lib/produtos";
 import { agruparPorFamilia, CHAVE_TODAS_CORES, getPaletaCores } from "@/lib/cores";
 import { brl, useStore } from "@/lib/store";
 import type { CorTinta, Produto } from "@/lib/types";
@@ -153,6 +153,7 @@ export default function ProdutoPage({ params }: { params: Promise<{ id: string }
   }, [fotoVariacao]);
   const familias = useMemo(() => agruparPorFamilia(paleta), [paleta]);
 
+  const desc = produto ? descontoDe(produto, variacao) : 0;
   const precoMin = produto ? precoMinimo(produto) : 0;
   const precoMax = produto ? precoMaximo(produto) : 0;
 
@@ -164,14 +165,14 @@ export default function ProdutoPage({ params }: { params: Promise<{ id: string }
 
   function add() {
     if (!produto || !variacao || !variacaoChave) return;
-    const temDesconto = produto.descontoPct > 0;
+    const temDesconto = desc > 0;
     addItem(
       {
         produtoId: produto.id,
         variacao: variacaoChave,
         title: produto.nome,
         specs: `Cor: ${selectedCor} | Volume: ${selectedVolume}`,
-        price: temDesconto ? precoAVista(produto, variacao.preco) : variacao.preco,
+        price: precoAVista(produto, variacao),
         oldPrice: temDesconto ? variacao.preco : null,
         shot: produto.nome.split(" ")[0],
         shotUrl: shots[0],
@@ -322,7 +323,7 @@ export default function ProdutoPage({ params }: { params: Promise<{ id: string }
 
         {/* Buy box */}
         <div>
-          {produto.descontoPct > 0 && (
+          {desc > 0 && (
             <div
               style={{
                 display: "inline-block",
@@ -336,7 +337,7 @@ export default function ProdutoPage({ params }: { params: Promise<{ id: string }
                 marginBottom: 12,
               }}
             >
-              OFF {produto.descontoPct}%
+              OFF {desc}%
             </div>
           )}
           <h1
@@ -386,7 +387,7 @@ export default function ProdutoPage({ params }: { params: Promise<{ id: string }
               gap: 4,
             }}
           >
-            {produto.descontoPct > 0 && variacao && (
+            {desc > 0 && variacao && (
               <span
                 style={{
                   fontFamily: "var(--font-manrope), sans-serif",
@@ -408,13 +409,13 @@ export default function ProdutoPage({ params }: { params: Promise<{ id: string }
                 }}
               >
                 {variacao
-                  ? brl(produto.descontoPct > 0 ? precoAVista(produto, variacao.preco) : variacao.preco)
+                  ? brl(precoAVista(produto, variacao))
                   : precoMin === precoMax
                     ? `R$ ${precoMin.toFixed(2).replace(".", ",")}`
                     : `R$ ${precoMin.toFixed(2).replace(".", ",")} - R$ ${precoMax.toFixed(2).replace(".", ",")}`}
               </span>
             </div>
-            {produto.descontoPct > 0 && variacao && (
+            {desc > 0 && variacao && (
               <span style={{ fontFamily: "var(--font-manrope), sans-serif", fontSize: 12, color: "#666666" }}>
                 à vista no PIX
               </span>

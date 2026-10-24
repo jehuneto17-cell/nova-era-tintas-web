@@ -49,10 +49,27 @@ export function precoMaximo(produto: Produto): number {
   return Math.max(...ativas.map((v) => v.preco));
 }
 
-/** Preço à vista (pagamento via PIX) de uma variação, aplicando o desconto do produto. */
-export function precoAVista(produto: Produto, preco: number): number {
-  if (produto.descontoPct <= 0) return preco;
-  return preco * (1 - produto.descontoPct / 100);
+/** Desconto à vista (%) de uma variação: o dela, ou o do produto quando ela não tem. */
+export function descontoDe(produto: Produto, variacao?: ProdutoVariacao): number {
+  return variacao?.descontoPct ?? produto.descontoPct;
+}
+
+/** Preço à vista (pagamento via PIX) de uma variação. */
+export function precoAVista(produto: Produto, variacao: ProdutoVariacao): number {
+  return variacao.preco * (1 - descontoDe(produto, variacao) / 100);
+}
+
+/** Variação ativa de menor preço à vista — a do "a partir de" nos cards. */
+export function variacaoMaisBarata(produto: Produto): ProdutoVariacao | undefined {
+  return variacoesAtivas(produto).reduce<ProdutoVariacao | undefined>(
+    (m, v) => (!m || precoAVista(produto, v) < precoAVista(produto, m) ? v : m),
+    undefined
+  );
+}
+
+/** Produto tem desconto no produto todo ou em alguma variação ativa. */
+export function temPromo(produto: Produto): boolean {
+  return produto.descontoPct > 0 || variacoesAtivas(produto).some((v) => (v.descontoPct ?? 0) > 0);
 }
 
 export function estoqueTotal(produto: Produto): number {

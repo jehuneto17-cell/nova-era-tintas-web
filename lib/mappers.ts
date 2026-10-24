@@ -1,13 +1,15 @@
 import type { Product } from "@/components/ProductCard";
-import { capaUrl, precoAVista, precoMinimo, temEstoque } from "./produtos";
+import { capaUrl, descontoDe, precoAVista, temEstoque, variacaoMaisBarata } from "./produtos";
 import type { CartLine } from "./store";
 import type { Produto, ProdutoVariacao } from "./types";
 
 /** Converte um Produto do Firestore para o formato de exibição usado pelo ProductCard. */
 export function toProductCard(produto: Produto): Product {
-  const menorPreco = precoMinimo(produto);
-  const aVista = precoAVista(produto, menorPreco);
-  const temDesconto = produto.descontoPct > 0;
+  const barata = variacaoMaisBarata(produto);
+  const menorPreco = barata?.preco ?? 0;
+  const aVista = barata ? precoAVista(produto, barata) : 0;
+  const pct = descontoDe(produto, barata);
+  const temDesconto = pct > 0;
   return {
     id: produto.id,
     title: produto.nome,
@@ -15,7 +17,7 @@ export function toProductCard(produto: Produto): Product {
     oldPrice: temDesconto ? menorPreco.toFixed(2).replace(".", ",") : null,
     reviews: 0,
     badge: null,
-    promo: temDesconto ? `OFF ${produto.descontoPct}%` : null,
+    promo: temDesconto ? `OFF ${pct}%` : null,
     shot: produto.nome.split(" ")[0],
     shotUrl: capaUrl(produto),
     hasStock: temEstoque(produto),
@@ -42,13 +44,13 @@ export function toCartLine(produto: Produto): Omit<CartLine, "qty"> | null {
   const padrao = variacaoPadrao(produto);
   if (!padrao) return null;
   const [chave, variacao] = padrao;
-  const temDesconto = produto.descontoPct > 0;
+  const temDesconto = descontoDe(produto, variacao) > 0;
   return {
     produtoId: produto.id,
     variacao: chave,
     title: produto.nome,
     specs: `Cor: ${variacao.cor} | Volume: ${variacao.volume}`,
-    price: temDesconto ? precoAVista(produto, variacao.preco) : variacao.preco,
+    price: precoAVista(produto, variacao),
     oldPrice: temDesconto ? variacao.preco : null,
     shot: produto.nome.split(" ")[0],
     shotUrl: capaUrl(produto),
