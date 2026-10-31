@@ -14,6 +14,7 @@ import { getProduto } from "@/lib/produtos";
 import { useWhatsapp } from "@/lib/hooks";
 import { brl } from "@/lib/store";
 import type { Pedido, PedidoEstado } from "@/lib/types";
+import { otimizar } from "@/lib/cloudinary";
 
 const ESTADO_LABEL: Record<PedidoEstado, string> = {
   em_negociacao: "Em Negociação",
@@ -448,7 +449,7 @@ export default function PedidoDetalhePage() {
                       {fotos[it.produtoId] ? (
                         // eslint-disable-next-line @next/next/no-img-element
                         <img
-                          src={fotos[it.produtoId]}
+                          src={otimizar(fotos[it.produtoId], 200)}
                           alt={it.nome}
                           style={{ width: "100%", height: "100%", objectFit: "cover" }}
                         />

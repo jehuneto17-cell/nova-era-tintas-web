@@ -9,6 +9,7 @@ import { EASE_OUT } from "@/components/ui";
 import { useCategoriasAtivas, useProdutos } from "@/lib/hooks";
 import { contarPorCategoria } from "@/lib/produtos";
 import type { Categoria } from "@/lib/types";
+import { otimizar } from "@/lib/cloudinary";
 
 /** Screen 7 — Categorias. */
 export default function CategoriasPage() {
@@ -124,7 +125,7 @@ function CategoryCard({ category, index, qtd }: { category: Categoria; index: nu
           {category.fotoUrl && (
             // eslint-disable-next-line @next/next/no-img-element
             <img
-              src={category.fotoUrl}
+              src={otimizar(category.fotoUrl, 600)}
               alt={category.nome}
               style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
             />

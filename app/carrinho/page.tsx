@@ -11,6 +11,7 @@ import { EASE_OUT, PrimaryButton, QtyStepper, SecondaryButton } from "@/componen
 import { brl, useStore, type CartLine } from "@/lib/store";
 import { buscarCupomValido } from "@/lib/cupons";
 import type { Cupom } from "@/lib/types";
+import { otimizar } from "@/lib/cloudinary";
 
 /** Screen 3 — Carrinho. */
 export default function CarrinhoPage() {
@@ -460,7 +461,7 @@ function CartRow({
         <div style={{ width: 80, height: 80, flex: "none", borderRadius: 8, overflow: "hidden", background: "#F5F5F5" }}>
           {line.shotUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
-            <img src={line.shotUrl} alt={line.title} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+            <img src={otimizar(line.shotUrl, 200)} alt={line.title} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
           ) : (
             <Placeholder label={line.shot} fontSize={9} />
           )}

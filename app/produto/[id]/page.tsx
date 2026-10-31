@@ -13,6 +13,7 @@ import { descontoDe, getProduto, getProdutosPorCategoria, precoAVista, precoMaxi
 import { agruparPorFamilia, CHAVE_TODAS_CORES, getPaletaCores } from "@/lib/cores";
 import { brl, useStore } from "@/lib/store";
 import type { CorTinta, Produto } from "@/lib/types";
+import { otimizar } from "@/lib/cloudinary";
 
 /**
  * Descrições podem vir de duas fontes:
@@ -273,7 +274,7 @@ export default function ProdutoPage({ params }: { params: Promise<{ id: string }
                 {shots[img] ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
-                    src={shots[img]}
+                    src={otimizar(shots[img], 1000)}
                     alt={produto.nome}
                     style={{ width: "100%", height: "100%", objectFit: "cover" }}
                   />
@@ -314,7 +315,7 @@ export default function ProdutoPage({ params }: { params: Promise<{ id: string }
                   }}
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src={s} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                  <img src={otimizar(s, 200)} alt="" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                 </motion.button>
               ))}
             </div>

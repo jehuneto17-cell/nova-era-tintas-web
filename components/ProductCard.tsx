@@ -9,6 +9,7 @@ import { Stars } from "./ui";
 import { useStore } from "@/lib/store";
 import { toCartLine, toProductCard } from "@/lib/mappers";
 import type { Produto } from "@/lib/types";
+import { otimizar } from "@/lib/cloudinary";
 
 export type Product = {
   id: string;
@@ -69,7 +70,7 @@ export function ProductCard({ produto, index = 0 }: { produto: Produto; index?: 
           {product.shotUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
-              src={product.shotUrl}
+              src={otimizar(product.shotUrl, 500)}
               alt={product.title}
               style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
             />

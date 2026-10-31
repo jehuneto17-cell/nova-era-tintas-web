@@ -10,6 +10,7 @@ import { SectionTitle } from "@/components/ui";
 import { useBranding, useCategoriasAtivas, useProdutos } from "@/lib/hooks";
 import { contarPorCategoria, precoMinimo, temEstoque, temPromo } from "@/lib/produtos";
 import type { Categoria } from "@/lib/types";
+import { otimizar } from "@/lib/cloudinary";
 
 /** Screen 1 — Home Web. */
 export default function HomePage() {
@@ -41,7 +42,7 @@ export default function HomePage() {
         {branding?.banner_url_web ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
-            src={branding.banner_url_web}
+            src={otimizar(branding.banner_url_web, 1600)}
             alt="Banner"
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
           />
@@ -138,7 +139,7 @@ function CategoryTile({ category, index, qtd }: { category: Categoria; index: nu
         {category.fotoUrl && (
           // eslint-disable-next-line @next/next/no-img-element
           <img
-            src={category.fotoUrl}
+            src={otimizar(category.fotoUrl, 600)}
             alt={category.nome}
             style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
           />

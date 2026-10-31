@@ -8,6 +8,7 @@ import { CartIcon, Icon } from "./Icon";
 import { useStore } from "@/lib/store";
 import { useAuth } from "@/lib/auth";
 import { useBranding, useLoja } from "@/lib/hooks";
+import { otimizar } from "@/lib/cloudinary";
 
 function initials(nome: string) {
   const parts = nome.trim().split(/\s+/).filter(Boolean);
@@ -71,7 +72,7 @@ export function Header() {
       >
         {branding?.logo_url ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={branding.logo_url} alt={loja?.nome ?? "Logo"} style={{ height: 32, width: "auto", display: "block" }} />
+          <img src={otimizar(branding.logo_url, 200)} alt={loja?.nome ?? "Logo"} style={{ height: 32, width: "auto", display: "block" }} />
         ) : null}
         {loja?.nome ?? "Nova Era Tintas"}
       </Link>

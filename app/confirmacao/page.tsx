@@ -12,6 +12,7 @@ import { brl, useStore, type CartLine } from "@/lib/store";
 import { useAuth } from "@/lib/auth";
 import { criarPedido } from "@/lib/pedidos";
 import type { PedidoItem } from "@/lib/types";
+import { otimizar } from "@/lib/cloudinary";
 
 const STAGES: { title: string; desc: string; state: "done" | "current" | "pending"; ic: IconName }[] = [
   { title: "Pedido Recebido", desc: "Agora", state: "done", ic: "check" },
@@ -414,7 +415,7 @@ export default function ConfirmacaoPage() {
               <div style={{ width: 80, height: 80, flex: "none", borderRadius: 8, overflow: "hidden", background: "#F5F5F5" }}>
                 {it.shotUrl ? (
                   // eslint-disable-next-line @next/next/no-img-element
-                  <img src={it.shotUrl} alt={it.title} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                  <img src={otimizar(it.shotUrl, 200)} alt={it.title} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                 ) : (
                   <Placeholder label={it.shot} fontSize={9} />
                 )}
